@@ -1,0 +1,353 @@
+/* ==========================================================================
+    Style Main Menu
+========================================================================== */
+/*
+-----> Minimum width of 992 pixels.
+*/
+
+@media screen and (min-width: 992px) {
+  #menu-mobile, .cs-menu-toggle {
+    display: none;
+  }
+  #cshero-header-navigation {
+    padding: 0;
+    margin: 0 0 30px;
+    position: relative;
+    .collapse {
+      display: block;
+    }
+  }
+  #cshero-header-navigation .main-navigation {
+    div.nav-menu > ul {
+      width: 100%;
+    }
+    .menu-main-menu {
+      text-align: center;
+      background-color: #1d2123;
+      padding: 0 60px;
+      @include border-radius(10px);
+      > ul > li, > li {
+        vertical-align: top;
+        display: inline-block;
+        position: relative;
+        margin: 0 -2px;
+        > a {
+          position: relative;
+          font-size: 14px;
+          color: #cacaca;
+          text-transform: uppercase;
+          line-height: 60px;
+          display: inline-block;
+          padding: 0 17px;
+          z-index: 2;
+        }
+        > ul.sub-menu {
+          opacity: 0;
+          left: 1px;
+          @include transition(opacity 0.4s ease 0s);
+          
+        }
+        &:after {
+          background-color: $primary_color;
+          content:"";
+          display: block;
+          height: 100%;
+          position: absolute;
+          left: 50%;
+          @include transform(translateX(-50%));
+          opacity: 0;
+          width: 0;
+          top: 0;
+          z-index: 1;
+        }
+        &:hover {
+          > ul.sub-menu {
+            opacity: 1;
+          }  
+        }
+        &:hover:after {
+          opacity: 1;
+          width: 100%;
+          @include transition(all .5s ease-in-out 0s );
+        }
+        &.current-menu-item > a, &:hover > a {
+          color: #fff;
+        }
+        &.current-menu-item {
+          background-color: $primary_color;
+        }
+      }
+    }
+    .menu-main-menu > li:first-child .sub-menu { left: 0; }
+  }
+  #cshero-header-navigation .menu-main-menu {
+    ul {
+      li.current-menu-item {
+        > a {
+          color: $primary_color;
+        }
+      }
+    }
+    li.current-menu-ancestor {
+      background-color: $primary_color;
+      > a {
+        color: #fff;
+      }
+    }
+  }
+
+  #cshero-header-navigation .main-navigation li ul:not(.wg-menu-item) {
+    background-color: #282d30;
+    margin: 0;
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    height: 0px;
+    overflow: hidden;
+    min-width: 200px;
+    @include box-shadow(0, 2px, 3px, 0, rgba(0,0,0,0.4));
+  }
+  /* Menu Stick Wall */
+  #cshero-header-navigation .main-navigation li ul ul:not(.wg-menu-item) {
+    top: 0;
+    left: 100%;
+    &.back {
+      right: 100%;
+      left: auto;
+      ul:not(.back) {
+        right: 100%;
+        left: auto;
+      }
+      ul.back {
+        left: 100%;
+        right: auto;
+        ul:not(.back) {
+          left: 100%;
+          right: auto;
+        }
+        ul.back {
+          right: 100%;
+          left: auto;
+        }
+      }
+    }
+  }
+  /* End Menu Stick Wall */
+  
+  #cshero-header-navigation .main-navigation {
+    ul li:hover > ul, ul li:focus > ul, .focus > ul {
+      border-left: 0;
+      clip: inherit;
+      overflow: inherit;
+      height: inherit;
+    }
+    li ul li {
+      border-bottom: 1px solid #3f474c;
+      a {
+        display: block;
+        padding: 15px 17px 14px;
+        color: #aeaeae;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        text-align: left;
+        &:hover {
+          color: #fff;
+          background-color: $primary_color;
+        }
+      }
+    }
+    li ul.sub-menu li:last-child {
+      border: none;
+    }
+    ul.sub-menu li {
+      position: relative;
+    }
+  }
+  /* End Menu Sub Level */
+
+}
+
+/*
+-----> Minimum width of 992 pixels.
+*/
+
+/*
+-----> Max width of 991 pixels.
+*/
+@media screen and (max-width: 991px) {
+  .cs-menu-toggle {
+    display: none;
+  }
+  #cshero-header {
+    &.menu-active {
+      #cshero-menu-mobile {
+        @include border-radius(10px 10px 0 0);
+        @include transition(all 600ms);
+      }
+      #cshero-header-navigation {
+        @include border-radius(0 0 10px 10px);
+        border-top: 1px solid #4a4a4a;
+      }
+    }  
+  }
+  #cshero-header-navigation {
+    text-align: left;
+    background-color: #1d2123;
+    top: 249px;
+    position: absolute;
+    display: none;
+  }
+  #cshero-header #cshero-menu-mobile {
+    display: block;
+    min-height: 60px;
+    background-color: #1d2123;
+    position: absolute;
+    width: 100%;
+    @include border-radius(10px);
+    i {
+      background: #1d2123;
+      color: #cacaca;
+      cursor: pointer;
+      font-size: 23px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      width: 45px;
+      margin: 0 15px;
+      position: absolute;
+      top: 50%;
+      @include transform(translate(0px, -50%));
+      &:hover {
+        color: #fff;
+      }
+    }
+    .page-popup-wrapper {
+      position: static !important;
+      .search-page i {
+        font-size: 18px;
+        right: 0;
+      }
+    }
+  }
+  #cshero-header-navigation .main-navigation div.nav-menu > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 500ms ease;
+    li {
+      list-style: none;
+      a {
+        display: block;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .collapse .main-navigation div.nav-menu > ul {
+    display: none;
+    max-height: 2000px;
+  }
+  #cshero-header #cshero-header-navigation .main-navigation {
+    padding: 15px 0;
+    .menu-main-menu {
+      li {
+        line-height: 1.57143em;
+        a {
+          background: transparent;
+          color: #cacaca;
+          font-size: 1em;
+        }
+      }
+    }
+    ul.sub-menu {
+      width: 100% !important;
+      margin: 0;
+    }
+  }
+  /* Dropdown Sub Menu */
+  .cs-menu-toggle {
+    display: block;
+  }
+  #cshero-header-navigation .main-navigation .menu-main-menu > li {
+    position: relative;
+    li {
+      position: relative;
+    }
+    ul li a {
+      font-size: 12px;
+    }
+    .cs-menu-toggle {
+      color: #cacaca;
+      cursor: pointer;
+      position: absolute;
+      right: -5px;
+      top: 0;
+      width: 30px;
+      font-size: 16px;
+      &:hover {
+        color: #fff;
+      }
+    }
+    ul.sub-menu {
+      max-height: 0;
+      overflow: hidden;
+      padding-left: 10px;
+      @include transition(max-height 600ms linear 0ms);
+      &.submenu-open {
+        max-height: 1000px;
+        + .cs-menu-toggle i {
+          &:before {
+            content: "\f106";
+          }
+        }
+      }
+      .cs-menu-toggle {
+        right: 12px;
+      }
+    }
+  }
+
+
+  #cshero-header-navigation .main-navigation .menu-main-menu > li {
+    position: relative;
+    padding: 7px 10px;
+    li {
+      position: relative;
+    }
+    a {
+      display: block;
+      border-bottom: none;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #cacaca;
+      font-weight: 600;
+      &:hover {
+        color: #fff !important;
+      }
+      i {
+        display: block;
+      }
+    }
+    ul li a {
+      font-size: 12px !important;
+      padding: 7px 15px;
+    }
+    ul.sub-menu {
+      @include transition(max-height 600ms linear 0ms);
+    }
+   
+  }
+}
+/*
+-----> End Max width of 992 pixels.
+*/
+
+
+/* ==========================================================================
+  End Style Main Menu
+========================================================================== */

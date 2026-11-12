@@ -1,0 +1,264 @@
+/* ==========================================================================
+    All style typo & element form
+========================================================================== */
+@font-face {
+ font-family: 'FontAwesome';
+ src:url('../fonts/fontawesome-webfont.eot?-2irksn');
+ src:url('../fonts/fontawesome-webfont.eot?#iefix-2irksn') format('embedded-opentype'),
+  url('../fonts/fontawesome-webfont.woff?-2irksn') format('woff'),
+  url('../fonts/fontawesome-webfont.ttf?-2irksn') format('truetype'),
+  url('../fonts/fontawesome-webfont.svg?-2irksn#fontawesome-webfont') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: 'Raleway-Regular';
+ src:url('../fonts/Raleway-Regular.eot?-2irksn');
+ src:url('../fonts/Raleway-Regular.eot?#iefix-2irksn') format('embedded-opentype'),
+  url('../fonts/Raleway-Regular.woff?-2irksn') format('woff'),
+  url('../fonts/Raleway-Regular.ttf?-2irksn') format('truetype'),
+  url('../fonts/Raleway-Regular.svg?-2irksn#Raleway-Regular') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+@font-face {
+ font-family: 'OpenSans';
+ src:url('../fonts/OpenSans-Regular.eot?-2irksn');
+ src:url('../fonts/OpenSans-Regular.eot?#iefix-2irksn') format('embedded-opentype'),
+  url('../fonts/OpenSans-Regular.ttf?-2irksn') format('truetype'),
+  url('../fonts/OpenSans-Regular.svg?-2irksn#OpenSans-Regular') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+@font-face {
+ font-family: 'OpenSans-Light';
+ src:url('../fonts/OpenSans-Light.eot?-2irksn');
+ src:url('../fonts/OpenSans-Light.eot?#iefix-2irksn') format('embedded-opentype'),
+  url('../fonts/OpenSans-Light.ttf?-2irksn') format('truetype'),
+  url('../fonts/OpenSans-Light.svg?-2irksn#OpenSans-Regular') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+@font-face {
+ font-family: 'Courgette';
+ src:url('../fonts/Courgette-Regular.eot?-2irksn');
+ src:url('../fonts/Courgette-Regular.eot?#iefix-2irksn') format('embedded-opentype'),
+  url('../fonts/Courgette-Regular.ttf?-2irksn') format('truetype'),
+  url('../fonts/Courgette-Regular.svg?-2irksn#Courgette-Regular') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+
+input[type='text'],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+textarea, select {
+    @include box-shadow(none);
+    line-height: normal;
+    padding: 15px 10px;
+    width: 100%;
+    max-width: 1140px;
+    outline: none;
+    height: 45px;
+    @include border-radius(4px);
+    background-color: rgba(225, 225, 225, 0.2);
+    font-size: 13px;
+    border: none;
+}
+textarea {
+    height: 140px;
+}
+
+#sidebar #secondary .widget_newsletterwidget .newsletter-widget form {
+    input::-webkit-input-placeholder {
+    color: #d2d2d2;
+    }
+     
+    input:-moz-placeholder { /* Firefox 18- */
+    color: #d2d2d2;  
+    }
+     
+    input::-moz-placeholder {  /* Firefox 19+ */
+    color: #d2d2d2;  
+    }
+     
+    input:-ms-input-placeholder {  
+    color: #d2d2d2;  
+    }
+}
+
+.search-field {
+    input::-webkit-input-placeholder {
+    color: #8a8a8a;
+    }
+     
+    input:-moz-placeholder { /* Firefox 18- */
+    color: #8a8a8a;  
+    }
+     
+    input::-moz-placeholder {  /* Firefox 19+ */
+    color: #8a8a8a;  
+    }
+     
+    input:-ms-input-placeholder {  
+    color: #8a8a8a;  
+    }
+}
+.comment-form {
+    input::-moz-placeholder {
+        color: #9a9a9a !important;
+    }
+    input::-webkit-input-placeholder {
+    color: #9a9a9a !important;
+    }
+
+    input:-ms-input-placeholder {  
+    color: #9a9a9a !important;  
+    }
+    textarea::-moz-placeholder {
+        color: #9a9a9a !important;
+    }
+}
+.form-contact {
+    input::-moz-placeholder {
+        color: #9a9a9a !important;
+    }
+    input::-webkit-input-placeholder {
+    color: #9a9a9a !important;
+    }
+
+    input:-ms-input-placeholder {  
+    color: #9a9a9a !important;  
+    }
+    textarea::-moz-placeholder {
+        color: #9a9a9a !important;
+    }
+}
+
+
+
+/* Blockqoute */
+blockquote {
+    margin: 0;
+    color: #010101;
+    font-family: "Playfair Display";
+    font-size: 32px;
+    font-style: italic;
+    line-height: normal;
+    margin: 50px 0 35px 0;
+    padding: 28px;
+    border-left: 6px solid $primary_color;
+}
+
+/* search loading. */
+.loading-wrapper {
+    top: 42px;
+    left: 0;
+    margin: auto;
+    max-width: 100px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    span {
+        display: block;
+        @extend .font-m-12;
+        color: #000;
+    }
+}
+.search-loading {
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+    border-left-color: rgba(0, 0, 0, 1);
+    border-left-style: solid;
+    border-left-width: 4px;
+    border-right-color: rgba(0, 0, 0, 0);
+    border-right-style: solid;
+    border-right-width: 4px;
+    border-top-color: rgba(0, 0, 0, 1);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-top-style: solid;
+    border-top-width: 4px;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 1);
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    width: 30px;
+    -webkit-animation: loading .5s linear infinite;
+    -moz-animation: loading .5s linear infinite;
+    -ms-animation: loading .5s linear infinite;
+    -o-animation: loading .5s linear infinite;
+    animation: loading .5s linear infinite;
+}
+
+@-webkit-keyframes loading{from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@-moz-keyframes loading{from{-moz-transform:rotate(0deg);transform:rotate(0deg)}to{-moz-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@-o-keyframes loading{from{-o-transform:rotate(0deg);transform:rotate(0deg)}to{-o-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes loading{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* Magnific Popup Images */
+[class*="page-template-blog-"] .mfp-bg,
+[class^="page-template-blog-"] .mfp-bg {
+    background-color: #fff;
+}
+[class*="page-template-blog-"] .mfp-with-zoom.mfp-ready.mfp-bg,
+[class^="page-template-blog-"] .mfp-with-zoom.mfp-ready.mfp-bg {
+    opacity: 1;
+}
+[class*="page-template-blog-"] .mfp-figure::after,
+[class^="page-template-blog-"] .mfp-figure::after {
+    @include box-shadow(none);
+}
+.mfp-bottom-bar {
+    display: none;
+}
+.image-source-link {
+    color: #98C3D1;
+}
+
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+    opacity: 0;
+    -webkit-backface-visibility: hidden;
+    /* ideally, transition speed should match zoom duration */
+    -webkit-transition: all 0.3s ease-out; 
+    -moz-transition: all 0.3s ease-out; 
+    -o-transition: all 0.3s ease-out; 
+    transition: all 0.3s ease-out;
+}
+
+.mfp-with-zoom.mfp-ready .mfp-container {
+        opacity: 1;
+}
+.mfp-with-zoom.mfp-ready.mfp-bg {
+        opacity: 0.8;
+}
+
+.mfp-with-zoom.mfp-removing .mfp-container, 
+.mfp-with-zoom.mfp-removing.mfp-bg {
+    opacity: 0;
+}
+.mfp-container .mfp-arrow:hover {
+    background-color: $primary_color;
+}
+/* End Magnific Popup Images */
+

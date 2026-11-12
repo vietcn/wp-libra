@@ -1,0 +1,97 @@
+
+/* ==========================================================================
+    Style Button
+========================================================================== */
+
+#back_to_top {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  cursor: pointer;
+  z-index: 1001;
+  &.off {
+    opacity: 0;
+    visibility: hidden;
+  }
+  &.on {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+#back_to_top {
+  span {
+    background: rgba(102, 114, 123, 0.85) none repeat scroll 0 0;
+    @include border-radius(4px);
+    color: #dadada;
+    display: block;
+    height: 48px;
+    width: 48px;
+    font-size: 30px;
+    line-height: 44px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease 0s;
+    float: right;
+  }
+  &:hover {
+    background-color: rgba(102, 114, 123, 1);
+    color: #fff;
+    @include border-radius(4px);
+  }
+}
+
+input[type="submit"] {
+	@extend .font-m-12;
+    display: inline-block;
+	letter-spacing: 0.18em;
+	font-weight: 6; 
+	color: #fff;
+	background-color: $primary_color;
+	border: none;
+	line-height: 45px;
+    width: 100%;
+    @include border-radius(4px);
+    height: 45px;
+    @include transition(all 280ms linear 0ms);
+    &:hover, &:focus {
+    	background-color: $primary_color;
+    	outline: none;
+        color: #fff;
+    }
+}
+
+.post-navigation {
+    margin-top: 42px;
+    a:hover h4 { 
+        color: $primary_color;
+        @include transition(color .3s ease-in-out 0s);
+    }
+    .right { text-align: right; }
+    span {
+        font-size: 12px;
+        color: #9a9a9a;
+        position: relative;
+        margin: 0 15px;
+    }
+    .post-next span:after, .post-prev span:before {
+        color: $primary_color;
+        font-size: 11px;
+        font-family: 'FontAwesome';
+        position: absolute;        
+        top: 50%;
+        @include transform(translateY(-50%));
+    }
+    .post-next span:after {
+        content:"\f054";
+        right: -15px;
+    }
+    .post-prev span:before {
+        content:"\f053";
+        left: -15px;
+
+    }
+}
+/* ==========================================================================
+    End Style Button
+========================================================================== */
