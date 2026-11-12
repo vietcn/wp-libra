@@ -32,8 +32,15 @@
          *
          * @since       1.0.0
          */
-        class ReduxFramework_button_set {
+        #[AllowDynamicProperties]
+    class ReduxFramework_button_set {
 
+        /** @var ReduxFramework|null */
+        public $parent = null;
+        /** @var array */
+        public $field = array();
+        /** @var mixed */
+        public $value = null;
             /**
              * Holds configuration settings for each field in a model.
              * Defining the field options
@@ -68,7 +75,7 @@
              * @access      public
              * @return      void
              */
-            function __construct( $field = array(), $value = '', $parent ) {
+            function __construct( $field = array(), $value = '', $parent = null ) {
 
                 $this->parent = $parent;
                 $this->field  = $field;

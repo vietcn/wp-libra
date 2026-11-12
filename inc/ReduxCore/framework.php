@@ -63,6 +63,7 @@
          *
          * @since       1.0.0
          */
+        #[AllowDynamicProperties]
         class ReduxFramework {
 
             // ATTENTION DEVS
@@ -178,6 +179,10 @@
             public $reload_fields = array();
             public $omit_share_icons = false;
             public $omit_admin_items = false;
+            public $old_opt_name = null;
+            public $transients = null;
+            public $transients_check = null;
+            public $ftp_form = null;
 
             /**
              * Class Constructor. Defines the args for the theme options class

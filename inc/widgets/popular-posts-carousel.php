@@ -7,7 +7,7 @@ function cs_popular_post_carousel() {
 
 class CS_Popular_Post_Carousel extends WP_Widget {
 
-    function CS_Popular_Post_Carousel() {
+    function __construct() {
         parent::__construct(
                 'cs_popular_post_carousel', esc_html__('CS Popular Post','wp-libra'), array('description' => esc_html__('Recent Posts Widget.', 'wp-libra'),)
         );

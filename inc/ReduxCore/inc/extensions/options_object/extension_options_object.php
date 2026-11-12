@@ -31,6 +31,7 @@
          *
          * @since       3.1.6
          */
+        #[AllowDynamicProperties]
         class ReduxFramework_Extension_options_object {
 
             // Protected vars
@@ -40,6 +41,7 @@
             public static $theInstance;
             public static $version = "4.0";
             public $is_field = false;
+            public $field_name = '';
 
             /**
              * Class Constructor. Defines the args for the extions class

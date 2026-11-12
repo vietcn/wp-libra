@@ -25,15 +25,6 @@
 
             public $parent = null;
 
-            public function __construct() {
-                $this->parent->admin_notices[] = array(
-                    'type'    => 'error',
-                    'msg'     => '<strong>' . __( 'File Permission Issues', 'wp-libra' ) . '</strong><br/>' . sprintf( __( 'We were unable to modify required files. Please check your permissions, or modify your wp-config.php file to contain your FTP login credentials as <a href="%s" target="_blank">outlined here</a>.', 'wp-libra' ), 'https://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants' ),
-                    'id'      => 'redux-wp-login',
-                    'dismiss' => false,
-                );
-            }
-
             /**
              * Return an instance of this class.
              *
@@ -111,7 +102,7 @@
 
             public function execute( $action, $file = '', $params = '' ) {
 
-                if ( empty( $this->parent->args ) ) {
+                if ( null === $this->parent || empty( $this->parent->args ) ) {
                     return;
                 }
 
@@ -265,13 +256,16 @@
                         }
                     }
                     
-                    $this->killswitch              = true;
-                    $this->parent->admin_notices[] = array(
-                        'type'    => 'error',
-                        'msg'     => '<strong>' . __( 'File Permission Issues', 'wp-libra' ) . '</strong><br/>' . sprintf( __( 'We were unable to modify required files. Please ensure that <code>%1s</code> has the proper read-write permissions, or modify your wp-config.php file to contain your FTP login credentials as <a href="%2s" target="_blank">outlined here</a>.', 'wp-libra' ), Redux_Helpers::cleanFilePath( trailingslashit( WP_CONTENT_DIR ) ) . '/uploads/', 'https://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants' ),
-                        'id'      => 'redux-wp-login',
-                        'dismiss' => false,
-                    );
+                    $this->killswitch = true;
+
+                    if ( null !== $this->parent && is_object( $this->parent ) ) {
+                        $this->parent->admin_notices[] = array(
+                            'type'    => 'error',
+                            'msg'     => '<strong>' . __( 'File Permission Issues', 'wp-libra' ) . '</strong><br/>' . sprintf( __( 'We were unable to modify required files. Please ensure that <code>%1s</code> has the proper read-write permissions, or modify your wp-config.php file to contain your FTP login credentials as <a href="%2s" target="_blank">outlined here</a>.', 'wp-libra' ), Redux_Helpers::cleanFilePath( trailingslashit( WP_CONTENT_DIR ) ) . '/uploads/', 'https://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants' ),
+                            'id'      => 'redux-wp-login',
+                            'dismiss' => false,
+                        );
+                    }
                     //add_action( "redux/page/{$this->parent->args['opt_name']}/form/before", array(
                     //    $this,
                     //    'ftp_form'

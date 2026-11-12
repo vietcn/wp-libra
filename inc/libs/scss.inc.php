@@ -45,6 +45,27 @@
 class scssc {
 	static public $VERSION = 'v0.0.12';
 
+	/** @var int */
+	public $indentLevel;
+	/** @var array */
+	public $commentsSeen;
+	/** @var array */
+	public $extends;
+	/** @var array */
+	public $extendsMap;
+	/** @var array */
+	public $parsedFiles;
+	/** @var mixed */
+	public $env;
+	/** @var mixed */
+	public $scope;
+	/** @var scss_parser|null */
+	public $parser;
+	/** @var mixed */
+	public $sourcePos;
+	/** @var mixed */
+	public $sourceParser;
+
 	static protected $operatorNames = array(
 		'+' => "add",
 		'-' => "sub",
@@ -894,12 +915,12 @@ class scssc {
 				// 1. op_[op name]_[left type]_[right type]
 				// 2. op_[left type]_[right type] (passing the op as first arg
 				// 3. op_[op name]
-				$fn = "op_${opName}_${ltype}_${rtype}";
+				$fn = "op_{$opName}_{$ltype}_{$rtype}";
 				if (is_callable(array($this, $fn)) ||
-					(($fn = "op_${ltype}_${rtype}") &&
+					(($fn = "op_{$ltype}_{$rtype}") &&
 						is_callable(array($this, $fn)) &&
 						$passOp = true) ||
-					(($fn = "op_${opName}") &&
+					(($fn = "op_{$opName}") &&
 						is_callable(array($this, $fn)) &&
 						$genOp = true))
 				{
@@ -1655,7 +1676,11 @@ class scssc {
 		if (isset($this->importCache[$realPath])) {
 			$tree = $this->importCache[$realPath];
 		} else {
-			$code = $wp_filesystem->get_contents($path);
+			if ( is_object( $wp_filesystem ) && method_exists( $wp_filesystem, 'get_contents' ) ) {
+				$code = $wp_filesystem->get_contents( $path );
+			} else {
+				$code = file_get_contents( $path );
+			}
 			$parser = new scss_parser($path, false);
 			$tree = $parser->parse($code);
 			$this->parsedFiles[] = $path;
@@ -1756,7 +1781,7 @@ class scssc {
 
 		foreach ($args as $arg) {
 			list($key, $value) = $arg;
-			$key = $key[1];
+			$key = ( is_array( $key ) && isset( $key[1] ) ) ? $key[1] : null;
 			if (empty($key)) {
 				$posArgs[] = $value;
 			} else {
@@ -2663,6 +2688,25 @@ class scssc {
  * @author Leaf Corcoran <leafot@gmail.com>
  */
 class scss_parser {
+	/** @var string|null */
+	public $sourceName;
+	/** @var bool */
+	public $rootParser;
+	/** @var int */
+	public $count;
+	/** @var mixed */
+	public $env;
+	/** @var bool */
+	public $inParens;
+	/** @var bool */
+	public $eatWhiteDefault;
+	/** @var bool */
+	public $insertComments;
+	/** @var string */
+	public $buffer;
+	/** @var array */
+	public $commentsSeen = array();
+
 	static protected $precedence = array(
 		"or" => 0,
 		"and" => 1,
@@ -3565,7 +3609,7 @@ class scss_parser {
 			$num = hexdec($num);
 			foreach (array(3,2,1) as $i) {
 				$t = $num % $width;
-				$num /= $width;
+				$num = (int) ($num / $width);
 
 				$color[$i] = $t * (256/$width) + $t * floor(16/$width);
 			}
@@ -3781,7 +3825,7 @@ class scss_parser {
 
 		// match comment hack
 		if (preg_match(self::$whitePattern,
-			$this->buffer, $m, null, $this->count))
+			(string) $this->buffer, $m, 0, (int) $this->count))
 		{
 			if (!empty($m[0])) {
 				$parts[] = $m[0];
@@ -4111,7 +4155,7 @@ class scss_parser {
 		if (!isset($eatWhitespace)) $eatWhitespace = $this->eatWhiteDefault;
 
 		$r = '/'.$regex.'/Ais';
-		if (preg_match($r, $this->buffer, $out, null, $this->count)) {
+		if (preg_match($r, (string) $this->buffer, $out, 0, (int) $this->count)) {
 			$this->count += strlen($out[0]);
 			if ($eatWhitespace) $this->whitespace();
 			return true;
@@ -4122,7 +4166,7 @@ class scss_parser {
 	// match some whitespace
 	protected function whitespace() {
 		$gotWhite = false;
-		while (preg_match(self::$whitePattern, $this->buffer, $m, null, $this->count)) {
+		while (preg_match(self::$whitePattern, (string) $this->buffer, $m, 0, (int) $this->count)) {
 			if ($this->insertComments) {
 				if (isset($m[1]) && empty($this->commentsSeen[$this->count])) {
 					$this->append(array("comment", $m[1]));
@@ -4139,7 +4183,7 @@ class scss_parser {
 		if (!isset($from)) $from = $this->count;
 
 		$r = '/'.$regex.'/Ais';
-		$result = preg_match($r, $this->buffer, $out, null, $from);
+		$result = preg_match($r, (string) $this->buffer, $out, 0, (int) $from);
 
 		return $result;
 	}
@@ -4183,6 +4227,8 @@ class scss_formatter {
 	public $close = "}";
 	public $tagSeparator = ", ";
 	public $assignSeparator = ": ";
+	/** @var int */
+	public $indentLevel = 0;
 
 	public function __construct() {
 		$this->indentLevel = 0;
@@ -4482,7 +4528,7 @@ class scss_server {
 
 		$v = scssc::$VERSION;
 		$t = @date('r');
-		$css = "/* compiled by scssphp $v on $t (${elapsed}s) */\n\n" . $css;
+		$css = "/* compiled by scssphp $v on $t ({$elapsed}s) */\n\n" . $css;
 
 		$wp_filesystem->put_contents($out, $css);
 		$wp_filesystem->put_contents($this->importsCacheName($out),

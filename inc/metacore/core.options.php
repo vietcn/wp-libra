@@ -351,7 +351,7 @@ class CsCoreControl
             <?php
             foreach ($selected as $value):
                 $attachment_image = wp_get_attachment_image_src($value,'thumbnail');
-                if (count($attachment_image) > 0):?>
+                if ( is_array( $attachment_image ) && ! empty( $attachment_image[0] ) ):?>
                 <li class="items" data-id="<?php echo esc_attr($value); ?>" style="background-image:url(<?php echo esc_url($attachment_image[0]);?>);background-size:cover;">
                     <i class="edit dashicons dashicons-plus-alt" title="<?php esc_html_e('Replace Image', 'wp-libra'); ?>"></i>
                     <i class="remove dashicons dashicons-dismiss" title="<?php esc_html_e('Remove Image', 'wp-libra'); ?>"></i>

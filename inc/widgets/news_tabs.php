@@ -7,7 +7,7 @@ function ww_news_tabs_load_widgets() {
 
 class WW_News_Tabs_Widget extends WP_Widget {
 
-    function WW_News_Tabs_Widget() {
+    function __construct() {
         parent::__construct(
                 'ww_news_tabs', esc_html__('CS News Tab Widget', 'wp-libra'), array('description' => esc_html__('Popular post, recent post and comments.', 'wp-libra'),)
         );

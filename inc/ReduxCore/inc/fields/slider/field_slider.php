@@ -24,8 +24,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'ReduxFramework_slider' ) ) {
+    #[AllowDynamicProperties]
     class ReduxFramework_slider {
 
+        /** @var ReduxFramework|null */
+        public $parent = null;
+        /** @var array */
+        public $field = array();
+        /** @var mixed */
+        public $value = null;
         /**
          * Field Constructor.
          * Required - must call the parent constructor, then assign field and value to vars, and obviously call the render field function
@@ -37,7 +44,7 @@ if ( ! class_exists( 'ReduxFramework_slider' ) ) {
         private $display_text = 2;
         private $display_select = 3;
 
-        function __construct( $field = array(), $value = '', $parent ) {
+        function __construct( $field = array(), $value = '', $parent = null ) {
 
             //parent::__construct( $parent->sections, $parent->args );
             $this->parent = $parent;

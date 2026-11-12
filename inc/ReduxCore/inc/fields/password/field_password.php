@@ -10,15 +10,22 @@
     }
 
     if ( ! class_exists( 'ReduxFramework_password' ) ) {
-        class ReduxFramework_password {
+        #[AllowDynamicProperties]
+    class ReduxFramework_password {
 
+        /** @var ReduxFramework|null */
+        public $parent = null;
+        /** @var array */
+        public $field = array();
+        /** @var mixed */
+        public $value = null;
             /**
              * Field Constructor.
              * Required - must call the parent constructor, then assign field and value to vars, and obviously call the render field function
              *
              * @since ReduxFramework 1.0.1
              */
-            function __construct( $field = array(), $value = '', $parent ) {
+            function __construct( $field = array(), $value = '', $parent = null ) {
                 $this->parent = $parent;
                 $this->field  = $field;
                 $this->value  = $value;

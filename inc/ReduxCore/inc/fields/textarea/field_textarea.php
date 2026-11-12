@@ -28,8 +28,15 @@
     }
 
     if ( ! class_exists( 'ReduxFramework_textarea' ) ) {
-        class ReduxFramework_textarea {
+        #[AllowDynamicProperties]
+    class ReduxFramework_textarea {
 
+        /** @var ReduxFramework|null */
+        public $parent = null;
+        /** @var array */
+        public $field = array();
+        /** @var mixed */
+        public $value = null;
             /**
              * Field Constructor.
              *
@@ -39,7 +46,7 @@
              * @since ReduxFramework 1.0.0
              * @type string $field  [test] Description. Default <value>. Accepts <value>, <value>.
              */
-            function __construct( $field = array(), $value = '', $parent ) {
+            function __construct( $field = array(), $value = '', $parent = null ) {
                 $this->parent = $parent;
                 $this->field  = $field;
                 $this->value  = $value;

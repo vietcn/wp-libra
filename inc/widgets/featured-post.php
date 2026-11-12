@@ -7,7 +7,7 @@ function cs_featured_post_widgets() {
 
 class CS_Featured_Post_Widget extends WP_Widget {
 
-    function CS_Featured_Post_Widget() {
+    function __construct() {
         parent::__construct(
                 'cs_featured_post', esc_html__('CS Feature Posts','wp-libra'), array('description' => esc_html__('Feature Posts Widget.', 'wp-libra'),)
         );

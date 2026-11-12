@@ -33,8 +33,15 @@ if( !class_exists( 'ReduxFramework_color_rgba' ) ) {
      *
      * @since       1.0.0
      */
+    #[AllowDynamicProperties]
     class ReduxFramework_color_rgba {
     
+        /** @var ReduxFramework|null */
+        public $parent = null;
+        /** @var array */
+        public $field = array();
+        /** @var mixed */
+        public $value = null;
       /**
        * Class Constructor. Defines the args for the extions class
        *
@@ -45,7 +52,7 @@ if( !class_exists( 'ReduxFramework_color_rgba' ) ) {
        * @param       array $parent Parent object.
        * @return      void
        */
-        public function __construct( $field = array(), $value ='', $parent ) {
+        public function __construct( $field = array(), $value = '', $parent = null ) {
 
             // Set required variables
             $this->parent   = $parent;

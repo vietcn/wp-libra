@@ -84,9 +84,12 @@ if ( ! isset( $content_width ) )
  */
 if (!function_exists('wp_libra_limit_words')) {
 	function wp_libra_limit_words($string, $word_limit) {
-	    
-		$words = explode(" ",$string);
-        return implode(" ",array_splice($words,0,$word_limit));
+		$string = (string) $string;
+		if ( '' === $string ) {
+			return '';
+		}
+		$words = explode( ' ', $string );
+		return implode( ' ', array_splice( $words, 0, (int) $word_limit ) );
 	}
 }
 /**
@@ -187,7 +190,7 @@ function wp_libra_admin_script(){
  */
 function wp_libra_scripts_styles() {
     
-	global $smof_data, $wp_styles, $post;
+	global $smof_data, $post;
 	
 	/** theme options. */
 	$script_options = array(
@@ -277,10 +280,6 @@ function wp_libra_scripts_styles() {
 	/* Loads our main stylesheet. */
 	wp_enqueue_style( 'cmssuperheroes-style', get_stylesheet_uri(), array( 'bootstrap' ));
 
-	/* Loads the Internet Explorer specific stylesheet. */
-	wp_enqueue_style( 'wp-libra-ie', get_template_directory_uri() . '/assets/css/ie.css', array( 'cmssuperheroes-style' ), '20121010' );
-	$wp_styles->add_data( 'wp-libra-ie', 'conditional', 'lt IE 9' );
-	
 	/* Load static css*/
 	wp_enqueue_style('cmssuperheroes-static', get_template_directory_uri() . '/assets/css/static.css', array( 'cmssuperheroes-style' ), '1.0.0');
 }

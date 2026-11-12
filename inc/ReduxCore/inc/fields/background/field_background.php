@@ -30,8 +30,15 @@
          *
          * @since       3.1.5
          */
-        class ReduxFramework_background {
+        #[AllowDynamicProperties]
+    class ReduxFramework_background {
 
+        /** @var ReduxFramework|null */
+        public $parent = null;
+        /** @var array */
+        public $field = array();
+        /** @var mixed */
+        public $value = null;
             /**
              * Field Constructor.
              * Required - must call the parent constructor, then assign field and value to vars, and obviously call the render field function
@@ -40,7 +47,7 @@
              * @access      public
              * @return      void
              */
-            function __construct( $field = array(), $value = '', $parent ) {
+            function __construct( $field = array(), $value = '', $parent = null ) {
 
                 $this->parent = $parent;
                 $this->field  = $field;

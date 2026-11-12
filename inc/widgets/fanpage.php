@@ -12,7 +12,7 @@ function cms_register_widget_fan_page()
 class CMS_Widget_Fan_Page extends WP_Widget
 {
 
-    function CMS_Widget_Fan_Page()
+    function __construct()
     {
         parent::__construct('cms_widget_fan_page', esc_html__('CS Facebook', 'wp-libra'), array(
             'description' => esc_html__('Facebook Fan Page.', 'wp-libra')

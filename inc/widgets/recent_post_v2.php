@@ -7,7 +7,7 @@ function cs_recent_post_widgets() {
 
 class CS_Recent_Post_Widget_V2 extends WP_Widget {
 
-    function CS_Recent_Post_Widget_V2() {
+    function __construct() {
         parent::__construct(
                 'cs_recent_post_v2', esc_html__('CS Recent Posts','wp-libra'), array('description' => esc_html__('Recent Posts Widget.', 'wp-libra'),)
         );

@@ -17,8 +17,15 @@
  */
 
 if ( ! class_exists( 'ReduxFramework_typography' ) ) {
+    #[AllowDynamicProperties]
     class ReduxFramework_typography {
 
+        /** @var ReduxFramework|null */
+        public $parent = null;
+        /** @var array */
+        public $field = array();
+        /** @var mixed */
+        public $value = null;
         private $std_fonts = array(
             "Arial, Helvetica, sans-serif"                         => "Arial, Helvetica, sans-serif",
             "'Arial Black', Gadget, sans-serif"                    => "'Arial Black', Gadget, sans-serif",
@@ -47,7 +54,7 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
          *
          * @since ReduxFramework 1.0.0
          */
-        function __construct( $field = array(), $value = '', $parent ) {
+        function __construct( $field = array(), $value = '', $parent = null ) {
             $this->parent = $parent;
             $this->field  = $field;
             $this->value  = $value;
