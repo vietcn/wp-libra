@@ -49,8 +49,13 @@
 	        		'link_after'  => '</span>',
 	    		) );
 			?>
-			<div class="icon-share" data-toggle="popover" data-container="body" data-placement="bottom" data-content='<?php wp_libra_get_socials_share(); ?>'>
-				<i class="fa fa-share-alt"></i>
+			<div class="post-share">
+				<div class="icon-share share-btn" role="button" tabindex="0" aria-label="<?php esc_attr_e( 'Share', 'wp-libra' ); ?>">
+					<i class="fa fa-share-alt"></i>
+				</div>
+				<div class="social-shared">
+					<ul><?php wp_libra_get_socials_share(); ?></ul>
+				</div>
 			</div>
 		</div>
 	</div>

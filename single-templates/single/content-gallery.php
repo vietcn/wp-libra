@@ -37,7 +37,13 @@ global $smof_data, $wp_libra_base;
 		<!-- .entry-header -->
 		
 		<div class="entry-content">
-			<div class="entry-content-inner"><?php the_content(); ?></div>
+			<div class="entry-content-inner">
+				<?php
+				/* Gallery images are rendered above via Owl; strip duplicate [gallery] from content. */
+				$content = preg_replace( '/\[gallery[^\]]*\]/', '', get_the_content() );
+				echo apply_filters( 'the_content', $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				?>
+			</div>
 			<div class="blog-tags">
 			    <?php the_tags( '<h5>TAGS</h5> ','' ); ?>
 	    	</div>

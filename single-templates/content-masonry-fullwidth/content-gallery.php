@@ -12,7 +12,8 @@
 <div class="cms-blog-masonry-item col-xs-12 col-sm-6 col-md-4 col-lg-4">
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<div class="entry-blog">
-			<div class="entry-feature entry-gallery entry-feature-image"><a href="<?php echo esc_url(get_the_permalink()); ?>"><?php wp_libra_archive_gallery(); ?></a>
+			<div class="entry-feature entry-gallery entry-feature-image">
+				<?php wp_libra_archive_gallery(); ?>
 		    	<div class="entry-terms"><?php wp_libra_detail_terms(); ?></div>
 		    </div>
 			<div class="entry-header clearfix">
@@ -48,7 +49,10 @@
 				<div class="readmore">
 					<?php wp_libra_archive_readmore(); ?> 
 				</div>
-				<div class="share-btn icon-share" data-toggle="popover" data-container="body" data-placement="bottom" data-content='<?php wp_libra_get_socials_share(); ?>'>Share</div>
+				<div class="share-btn" role="button" tabindex="0">Share</div>
+				<div class="social-shared inline-bl">
+					<ul><?php wp_libra_get_socials_share(); ?></ul>
+				</div>
 			</div>
 		</div>
 		<!-- .entry-blog -->

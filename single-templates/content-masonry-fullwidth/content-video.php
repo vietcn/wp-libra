@@ -47,7 +47,10 @@
 				<div class="readmore">
 					<?php wp_libra_archive_readmore(); ?>
 				</div>
-				<div class="share-btn icon-share" data-toggle="popover" data-container="body" data-placement="bottom" data-content='<?php wp_libra_get_socials_share(); ?>'>Share</div>
+				<div class="share-btn" role="button" tabindex="0">Share</div>
+				<div class="social-shared inline-bl">
+					<ul><?php wp_libra_get_socials_share(); ?></ul>
+				</div>
 			</div>
 		</div>
 		<!-- .entry-blog -->

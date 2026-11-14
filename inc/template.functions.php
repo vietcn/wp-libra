@@ -255,7 +255,7 @@ function wp_libra_archive_video() {
  * @since 1.0.0
  */
 function wp_libra_archive_gallery(){
-    global $wp_libra_base;
+    global $wp_libra_base, $smof_data;
     /* get shortcode gallery. */
     $shortcode = $wp_libra_base->getShortcodeFromContent('gallery', get_the_content());
     
@@ -265,26 +265,22 @@ function wp_libra_archive_gallery(){
         if(!empty($ids)){
         
             $array_id = explode(",", $ids[1]);
+            $auto_play = ! empty( $smof_data['auto_play_slider'] ) ? $smof_data['auto_play_slider'] : '1';
+            $speed     = ! empty( $smof_data['speed_slider'] ) ? $smof_data['speed_slider'] : '2000';
+            $loop      = ! empty( $smof_data['loop_slider'] ) ? $smof_data['loop_slider'] : '1';
             ?>
-            <div id="carousel-example-generic-<?php the_ID(); ?>" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                <?php $i = 0; ?>
-                <?php foreach ($array_id as $image_id): ?>
+            <div id="cms-gallery-carousel-<?php the_ID(); ?>" class="cms-theme-carousel cms-post-gallery-carousel cs-slider-wrapper nav-center clearfix" data-auto-play="<?php echo esc_attr( $auto_play ); ?>" data-speed="<?php echo esc_attr( $speed ); ?>" data-item="1" data-loop="<?php echo esc_attr( $loop ); ?>">
+                <?php foreach ( $array_id as $image_id ) : ?>
                     <?php
-                    $attachment_image = wp_get_attachment_image_src($image_id, 'full', false);
-                    if($attachment_image[0] != ''):?>
-                        <div class="item <?php if( $i == 0 ){ echo 'active'; } ?>">
-                            <img style="width:100%;" data-src="holder.js" src="<?php echo esc_url($attachment_image[0]);?>" alt="" />
+                    $attachment_image = wp_get_attachment_image_src( $image_id, 'full', false );
+                    if ( is_array( $attachment_image ) && ! empty( $attachment_image[0] ) ) :
+                        $alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+                        ?>
+                        <div class="item-inner">
+                            <img src="<?php echo esc_url( $attachment_image[0] ); ?>" alt="<?php echo esc_attr( $alt ); ?>" />
                         </div>
-                    <?php $i++; endif; ?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
-                </div>
-                <a class="left carousel-control" href="#carousel-example-generic-<?php the_ID(); ?>" role="button" data-slide="prev">
-                    <span class="fa fa-angle-left"></span>
-                </a>
-                <a class="right carousel-control" href="#carousel-example-generic-<?php the_ID(); ?>" role="button" data-slide="next">
-                    <span class="fa fa-angle-right"></span>
-                </a>
             </div>
             <?php
             
@@ -343,7 +339,7 @@ function wp_libra_archive_images(){
 }
 
 function wp_libra_images(){
-    global $wp_libra_base;
+    global $wp_libra_base, $smof_data;
     /* get shortcode images. */
     $shortcode = $wp_libra_base->getShortcodeFromContent('gallery', get_the_content());
     
@@ -353,17 +349,21 @@ function wp_libra_images(){
         if(!empty($ids)){
         
             $array_id = explode(",", $ids[1]);
+            $auto_play = ! empty( $smof_data['auto_play_slider'] ) ? $smof_data['auto_play_slider'] : '1';
+            $speed     = ! empty( $smof_data['speed_slider'] ) ? $smof_data['speed_slider'] : '2000';
+            $loop      = ! empty( $smof_data['loop_slider'] ) ? $smof_data['loop_slider'] : '1';
             ?>
-            <div class="carousel cms-post-image">
-                <?php $i = 0; ?>
-                <?php foreach ($array_id as $image_id): ?>
+            <div class="cms-theme-carousel cms-post-gallery-carousel cs-slider-wrapper nav-center clearfix" data-auto-play="<?php echo esc_attr( $auto_play ); ?>" data-speed="<?php echo esc_attr( $speed ); ?>" data-item="1" data-loop="<?php echo esc_attr( $loop ); ?>">
+                <?php foreach ( $array_id as $image_id ) : ?>
                     <?php
-                    $attachment_image = wp_get_attachment_image_src($image_id, 'full', false);
-                    if($attachment_image[0] != ''):?>
-                        <div class="gallery-item <?php if( $i == 0 ){ echo 'active'; } ?>">
-                            <img style="width:100%;" src="<?php echo esc_url($attachment_image[0]);?>" alt="" />
+                    $attachment_image = wp_get_attachment_image_src( $image_id, 'full', false );
+                    if ( is_array( $attachment_image ) && ! empty( $attachment_image[0] ) ) :
+                        $alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+                        ?>
+                        <div class="item-inner">
+                            <img src="<?php echo esc_url( $attachment_image[0] ); ?>" alt="<?php echo esc_attr( $alt ); ?>" />
                         </div>
-                    <?php $i++; endif; ?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </div>
             <?php
@@ -509,116 +509,6 @@ function wp_libra_slider_magazine(){
     <?php
     
     wp_reset_postdata();
-}
-
-/* Slider Cube */
-function wp_libra_cube_news(){
-    global $smof_data, $wp_libra_meta;
-    
-    /* query. */
-    $query = array(
-                'posts_per_page'=> 8,
-                'post_type' => 'post',
-                'post_status' => 'publish'
-            );
-      
-    if(!empty($wp_libra_meta->_cms_slider_categories)){
-        $query['tax_query'] = array(array('taxonomy'=>'category', 'field'=>'slug', 'terms'=>explode(',', $wp_libra_meta->_cms_slider_categories)));
-    }
-
-    $cube_posts = new WP_Query( $query );
-    
-    $cube_post = $cube_posts->posts;
-    
-    if(empty($cube_post)) return ;
-    
-    ?>
-    <div class="cs-cube-wrapper clearfix">
-        <div class="cs-cube-left cs-cube-box w37">
-             <div class="w100">
-                <div class="cs-cube-item">
-                    <?php isset($cube_post[0]) ? wp_libra_cube_new_post($cube_post[0]) : ''; ?>
-                </div>
-            </div>
-            <div class="w50">
-                <div class="cs-cube-item">
-                    <?php isset($cube_post[1]) ? wp_libra_cube_new_post($cube_post[1], 10) : ''; ?>
-                </div>
-            </div>
-            <div class="w50">
-                <div class="cs-cube-item">
-                    <?php isset($cube_post[2]) ? wp_libra_cube_new_post($cube_post[2], 10) : ''; ?>
-                </div>
-            </div>
-        </div>
-        <div class="cs-cube-center cs-cube-box w26">
-            <div class="w100">
-                <div class="cs-cube-item">
-                    <?php isset($cube_post[3]) ? wp_libra_cube_new_post($cube_post[3]) : ''; ?>
-                </div>
-            </div>
-            <div class="w100">
-                <div class="cs-cube-item">
-                    <?php isset($cube_post[4]) ? wp_libra_cube_new_post($cube_post[4]) : ''; ?>
-                </div>
-            </div>
-        </div>
-        <div class="cs-cube-right cs-cube-box w37">
-            <div class="w50">
-                <div class="cs-cube-item">
-                    <?php isset($cube_post[5]) ? wp_libra_cube_new_post($cube_post[5], 10) : ''; ?>
-                </div>
-            </div>
-            <div class="w50">
-                <div class="cs-cube-item">
-                    <?php isset($cube_post[6]) ? wp_libra_cube_new_post($cube_post[6], 10) : ''; ?>
-                </div>
-            </div>
-            <div class="w100">
-                <div class="cs-cube-item">
-                    <?php isset($cube_post[7]) ? wp_libra_cube_new_post($cube_post[7]) : ''; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php
-    
-    wp_reset_postdata();
-}
-
-/* Function Child cms_cube_new */
-function wp_libra_cube_new_post($item, $limit = 25){
-    ?>
-    <article>
-        <div class="post-thumbnail">
-        <?php if(has_post_thumbnail($item->ID)): ?>
-            <img src="<?php echo esc_url(wp_get_attachment_url( get_post_thumbnail_id($item->ID) )); ?>" atl="<?php echo esc_attr($item->post_title); ?>" />
-        <?php else : ?>
-            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/no-image.jpg" alt="<?php echo esc_attr($item->post_title); ?>" />
-        <?php endif; ?>
-        </div>
-        <div class="first-content">
-            <span class="category">
-                <?php if(has_category()): ?>
-                    <?php the_terms( $item->ID, 'category' ); ?>
-                <?php endif; ?>
-            </span>
-            <h3 class="title"><a class="readmore" href="<?php echo get_the_permalink($item->ID); ?>"><?php echo esc_attr($item->post_title); ?></a></h3>
-            <span class="subtitle"><?php echo esc_attr(get_post_meta($item->ID , 'post_subtitle', true)); ?></span>
-        </div>
-        <div class="last-content">
-            <span class="category">
-                <?php if(has_category()): ?>
-                    <?php the_terms( $item->ID, 'category' ); ?>
-                <?php endif; ?>
-            </span>
-            <h3 class="title"><?php echo esc_attr($item->post_title); ?></h3>
-            <span class="subtitle"><?php echo esc_attr(get_post_meta($item->ID , 'post_subtitle', true)); ?></span>
-            <div class="description"><?php echo wp_libra_limit_words( strip_tags(strip_shortcodes($item->post_content)) , $limit) . "..."; ?></div>
-            <a class="readmore" href="<?php echo esc_url(get_the_permalink($item->ID)); ?>"><?php esc_html_e('Read More', 'wp-libra'); ?></a>
-        </div>
-    </article>
-    <?php
 }
 
 /* Function Child wp_libra_slider_news */

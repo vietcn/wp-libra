@@ -8,10 +8,6 @@
  * @author Fox
  */
 
-wp_enqueue_script('imagesloaded', get_template_directory_uri(). '/assets/js/jquery.imagesloaded.js', array('jquery'));
-wp_enqueue_script('jquery-isotope', get_template_directory_uri(). '/assets/js/jquery.isotope.min.js', array('jquery','imagesloaded'));
-wp_enqueue_script('cms-jquery-isotope', get_template_directory_uri(). '/assets/js/jquery.isotope.cms.js', array('jquery-isotope'));
-
 get_header(); 
 global $smof_data, $wp_query, $post, $wp_libra_meta, $paged;
 if(is_page() && isset($wp_libra_meta->_cms_enable_feature_slider) && $wp_libra_meta->_cms_enable_feature_slider){

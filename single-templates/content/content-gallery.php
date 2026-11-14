@@ -12,7 +12,8 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="entry-blog">
-		<div class="entry-feature entry-gallery entry-feature-image"><a href="<?php echo esc_url(get_the_permalink()); ?>"><?php wp_libra_archive_gallery(); ?></a>
+		<div class="entry-feature entry-gallery entry-feature-image">
+			<?php wp_libra_archive_gallery(); ?>
 	    	<div class="entry-terms"><?php wp_libra_detail_terms(); ?></div>
 	    </div>
 		<div class="entry-header clearfix">

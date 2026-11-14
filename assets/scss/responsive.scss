@@ -80,10 +80,17 @@
 	}
 	body .entry-blog.entry-blog-list .entry-header-list {
 		padding: 0 0 40px;
-		.icon-share {
+		.post-share {
 			top: 100%;
 			right: 50%;
 			@include transform(translate(50%, -170%));
+
+			.social-shared {
+				right: 50%;
+				top: auto;
+				bottom: 130%;
+				@include transform(translateX(50%));
+			}
 		}
 	}
 	body #primary .post-single-details-body #comments ol {

@@ -99,7 +99,7 @@ $this->sections[] = array(
             'id' => 'page_title_layout',
             'title' => esc_html__('Layouts', 'wp-libra'),
             'subtitle' => esc_html__('Select a layout for page title', 'wp-libra'),
-            'default' => '1',
+            'default' => '',
             'type' => 'image_select',
             'options' => array(
                 '' => get_template_directory_uri().'/inc/options/images/pagetitle/p0.png',
@@ -142,7 +142,7 @@ $this->sections[] = array(
             'id' => 'bg_canvas',
             'type' => 'switch',
             'title' => esc_html__('Enable canvas', 'wp-libra'),
-            'default' => false,
+            'default' => true,
         )
     )
 );

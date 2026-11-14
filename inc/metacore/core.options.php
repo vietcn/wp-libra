@@ -9,6 +9,51 @@ global $core_options;
 
 $core_options = new CsCoreControl();
 
+/**
+ * Decode a stored meta value safely for PHP 8+.
+ *
+ * @param mixed $meta Meta value from JSON.
+ * @return mixed
+ */
+function cms_core_decode_meta_value( $meta ) {
+	if ( is_array( $meta ) ) {
+		$decoded = array();
+		foreach ( $meta as $key => $value ) {
+			$decoded[ $key ] = cms_core_decode_meta_value( $value );
+		}
+		return $decoded;
+	}
+
+	if ( is_string( $meta ) ) {
+		return rawurldecode( $meta );
+	}
+
+	return $meta;
+}
+
+/**
+ * Encode a meta value for storage without array-to-string notices.
+ *
+ * @param mixed $value Raw POST value.
+ * @return string
+ */
+function cms_core_encode_meta_value( $value ) {
+	$value = wp_unslash( $value );
+
+	if ( is_array( $value ) ) {
+		$clean = array();
+		foreach ( $value as $item ) {
+			if ( is_array( $item ) ) {
+				continue;
+			}
+			$clean[] = sanitize_text_field( (string) $item );
+		}
+		return rawurlencode( implode( ',', $clean ) );
+	}
+
+	return rawurlencode( (string) $value );
+}
+
 function cms_options($params = array())
 {
     global $pagenow, $core_options;
@@ -22,6 +67,10 @@ function cms_options($params = array())
         /* Taxonomys */
         if($pagenow == 'edit-tags.php'){
             global $tag;
+
+            if ( empty( $tag ) || ! isset( $tag->term_id ) ) {
+                return;
+            }
 
             $t_id = $tag->term_id;
             $cat_meta = get_option("category_$t_id");
@@ -37,20 +86,22 @@ function cms_options($params = array())
         /* Post or Page */
         elseif ($pagenow=='post-new.php' || $pagenow=='post.php'){
             global $post;
-            /* Get cms meta data opject */
-            $wp_libra_meta = json_decode(get_post_meta($post->ID, '_cms_meta_data', true));
-            
-            if(!empty($wp_libra_meta)){
-                foreach ($wp_libra_meta as $key => $meta){
-                    $wp_libra_meta->$key = rawurldecode($meta);
+            /* Get cms meta data object */
+            $wp_libra_meta = json_decode( get_post_meta( $post->ID, '_cms_meta_data', true ) );
+
+            if ( ! empty( $wp_libra_meta ) && is_object( $wp_libra_meta ) ) {
+                foreach ( $wp_libra_meta as $key => $meta ) {
+                    $wp_libra_meta->$key = cms_core_decode_meta_value( $meta );
                 }
             }
-            
+
             // Render params id
-            $params['id'] = "_cms_".$params['id'];
+            $params['id'] = '_cms_' . $params['id'];
             // Get value
-            if(!empty($wp_libra_meta->$params['id'])){
-                $params['value'] = $wp_libra_meta->$params['id'];
+            if ( is_object( $wp_libra_meta ) && isset( $wp_libra_meta->{$params['id']} ) && '' !== $wp_libra_meta->{$params['id']} && null !== $wp_libra_meta->{$params['id']} ) {
+                $meta_value = $wp_libra_meta->{$params['id']};
+                // Scalar fields expect a string; normalize leftover arrays.
+                $params['value'] = is_array( $meta_value ) ? implode( ',', array_map( 'strval', $meta_value ) ) : $meta_value;
             } else {
                 $params['value'] = null;
             }
@@ -225,8 +276,12 @@ class CsCoreControl
     private function multiple($params){
         ob_start();
         $selected = array();
-        if(!empty($params['value'])){
-            $selected = explode(',', $params['value']);
+        if ( ! empty( $params['value'] ) ) {
+            if ( is_array( $params['value'] ) ) {
+                $selected = array_map( 'strval', $params['value'] );
+            } else {
+                $selected = explode( ',', (string) $params['value'] );
+            }
         }
         ?>
         <div class="multiple-field">
@@ -341,8 +396,12 @@ class CsCoreControl
         //render type ( single, multiple )
         wp_enqueue_script('media-selector');
         $selected = array();
-        if(!empty($params['value'])){
-            $selected = explode(',', $params['value']);
+        if ( ! empty( $params['value'] ) ) {
+            if ( is_array( $params['value'] ) ) {
+                $selected = array_map( 'strval', $params['value'] );
+            } else {
+                $selected = explode( ',', (string) $params['value'] );
+            }
         }
         ob_start();
         ?>
@@ -532,9 +591,9 @@ class CsCoreControl
         $wp_libra_meta = array();
         
         /* find cms meta key. */
-		foreach($_POST as $key => $value) {
-			if(strstr($key, '_cms_')) {
-			    $wp_libra_meta[$key] = rawurlencode($value);
+		foreach ( $_POST as $key => $value ) {
+			if ( false !== strpos( $key, '_cms_' ) ) {
+				$wp_libra_meta[ $key ] = cms_core_encode_meta_value( $value );
 			}
 		}
 		/* update _cms_meta_data. */

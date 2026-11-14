@@ -69,12 +69,10 @@
     position: relative;
     .page-search-header {
       height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       .searchform {
-        position: absolute;
-        top: 50%;
-        @include transform(translate(0px, -50%));
-        width: 100%;
-        border-bottom: 2px solid #3a3a3a;
         z-index: 10;
         .search-field {
           text-align: center;
@@ -82,7 +80,6 @@
           background-color: transparent;
         }
         input[type="text"] {
-          background-color: transparent;
           text-align: center;
           font-size: 32px;
           line-height: 70px;
@@ -215,29 +212,6 @@
 .page-template-page-books #cshero-header {
   position: relative;
 }
-/*** Admin Bar ***/
-.admin-bar {
-  #cshero-header {
-    //top: 32px;
-    &.no-sticky {
-      //top: 0;
-      &.header-fixed-page {
-        //top: 32px;
-      }
-    }
-  }
-  .page-search-popup,  {
-    //top: 32px;
-  }
-  &.page-template-page-books #cshero-header {
-    //top: 0;
-  }
-}
-/*** End Admin Bar ***/
-
-/*** Logo ***/
-
-
 /* ==========================================================================
   End All Style Header
 ========================================================================== */
