@@ -43,7 +43,6 @@ if(is_page() && isset($wp_libra_meta->_cms_enable_feature_slider) && $wp_libra_m
     }
 ?>
 <div id="page-front-page" class="home-list custom-page-template <?php if($paged > 1) { echo 'paged-active'; } ?>">
-    <?php  ?>
     <div class="no-container">
         <div class="row">
             <section id="primary" class="<?php if($wp_libra_meta->_cms_show_sidebar == '1') { echo 'col-xs-12 col-sm-12 col-md-8 col-lg-8'; }else  { echo 'col-xs-12 col-sm-12 col-md-12 col-lg-12 page-full-width'; } ?>">

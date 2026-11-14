@@ -1,24 +1,9 @@
 <?php
 /**
- * Twenty Twelve functions and definitions
- *
- * Sets up the theme and provides some helper functions, which are used
- * in the theme as custom template tags. Others are attached to action and
- * filter hooks in WordPress to change core functionality.
- *
- * When using a child theme (see http://codex.wordpress.org/Theme_Development and
- * http://codex.wordpress.org/Child_Themes), you can override certain functions
- * (those wrapped in a function_exists() call) by defining them first in your child theme's
- * functions.php file. The child theme's functions.php file is included before the parent
- * theme's file, so the child theme functions would be used.
- *
- * Functions that are not pluggable (not wrapped in function_exists()) are instead attached
- * to a filter or action hook.
- *
- * For more information on hooks, actions, and filters, @link http://codex.wordpress.org/Plugin_API
+ * WP Libra theme functions and definitions.
  *
  * @package CMSSuperHeroes
- * @subpackage CMS Theme
+ * @subpackage WP Libra
  * @since 1.0.0
  */
 
@@ -93,28 +78,11 @@ if (!function_exists('wp_libra_limit_words')) {
 	}
 }
 /**
- * Twenty Twelve setup.
+ * Theme setup.
  *
- * Sets up theme defaults and registers the various WordPress features that
- * Twenty Twelve supports.
- *
- * @uses load_theme_textdomain() For translation/localization support.
- * @uses add_editor_style() To add a Visual Editor stylesheet.
- * @uses add_theme_support() To add support for post thumbnails, automatic feed links,
- * 	custom background, and post formats.
- * @uses register_nav_menu() To add support for navigation menus.
- * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
- *
- * @since Twenty Twelve 1.0
+ * @since 1.0.0
  */
 function wp_libra_setup() {
-	/*
-	 * Makes Twenty Twelve available for translation.
-	 *
-	 * Translations can be added to the /languages/ directory.
-	 * If you're building a theme based on Twenty Twelve, use a find and replace
-	 * to change 'wp-libra' to the name of your theme in all the template files.
-	 */
 	load_theme_textdomain( 'wp-libra' , get_template_directory() . '/languages' );
 
 	// Adds title tag
@@ -145,7 +113,7 @@ function wp_libra_setup() {
 
 	// This theme uses a custom image size for featured images, displayed on "standard" posts.
 	add_theme_support( 'post-thumbnails' );
-	add_image_size('wp_libra_sm-images', 500, 500, true);
+	add_image_size( 'wp_libra_images-small', 500, 500, true );
 	set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop
 }
 add_action( 'after_setup_theme', 'wp_libra_setup' );
@@ -195,26 +163,16 @@ function wp_libra_scripts_styles() {
 	/** theme options. */
 	$script_options = array(
 	    'menu_sticky'=> $smof_data['menu_sticky'],
-	    'paralax' => 1,
 	    'back_to_top'=> $smof_data['footer_botton_back_to_top']
 	);
 
 	/*------------------------------------- JavaScript ---------------------------------------*/
-	
-	
-	/** --------------------------libs--------------------------------- */
-	
-	
-	/* Adds JavaScript Bootstrap. */
-	// wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array( 'jquery' ), '3.3.2');
-	
-	/** --------------------------custom------------------------------- */
-	
+
 	/* Owl Carousel - must load before theme main.js */
 	wp_enqueue_script( 'olw-carousel', get_template_directory_uri() . '/assets/js/owl.carousel.min.js', array( 'jquery' ), '2.0.0', true );
 
 	/* Add main.js */
-	wp_register_script( 'cmssuperheroes-main', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery', 'olw-carousel' ), '1.0.4', true );
+	wp_register_script( 'cmssuperheroes-main', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery', 'olw-carousel' ), '1.0.7', true );
 	wp_localize_script( 'cmssuperheroes-main', 'CMSOptions', $script_options );
 	wp_enqueue_script( 'cmssuperheroes-main' );
 	/* Add menu.js */
@@ -250,7 +208,7 @@ function wp_libra_scripts_styles() {
 	wp_enqueue_style( 'cmssuperheroes-style', get_stylesheet_uri(), array( 'bootstrap' ));
 
 	/* Load static css*/
-	wp_enqueue_style('cmssuperheroes-static', get_template_directory_uri() . '/assets/css/static.css', array( 'cmssuperheroes-style' ), '1.0.3');
+	wp_enqueue_style('cmssuperheroes-static', get_template_directory_uri() . '/assets/css/static.css', array( 'cmssuperheroes-style' ), '1.0.7');
 }
 add_action( 'wp_enqueue_scripts', 'wp_libra_scripts_styles' );
 
@@ -275,6 +233,33 @@ function wp_libra_widgets_init() {
 		'name' => esc_html__( 'Featured Box 1', 'wp-libra' ),
 		'id' => 'featured-box-1',
 		'description' => esc_html__( 'Appears on posts and pages except the optional Front Page template, which has its own widgets', 'wp-libra' ),
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<h3 class="wg-title">',
+		'after_title' => '</h3>',
+	) );
+	register_sidebar( array(
+		'name' => esc_html__( 'Feature Box 1', 'wp-libra' ),
+		'id' => 'wg-feature-1',
+		'description' => esc_html__( 'Feature box column 1 on blog page templates.', 'wp-libra' ),
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<h3 class="wg-title">',
+		'after_title' => '</h3>',
+	) );
+	register_sidebar( array(
+		'name' => esc_html__( 'Feature Box 2', 'wp-libra' ),
+		'id' => 'wg-feature-2',
+		'description' => esc_html__( 'Feature box column 2 on blog page templates.', 'wp-libra' ),
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<h3 class="wg-title">',
+		'after_title' => '</h3>',
+	) );
+	register_sidebar( array(
+		'name' => esc_html__( 'Feature Box 3', 'wp-libra' ),
+		'id' => 'wg-feature-3',
+		'description' => esc_html__( 'Feature box column 3 on blog page templates.', 'wp-libra' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="wg-title">',
@@ -389,8 +374,8 @@ function wp_libra_save_meta_boxes($post_id) {
         return;
     }
     /* update field subtitle */
-    if(isset($_POST['post_subtitle'])){
-        update_post_meta($post_id, 'post_subtitle', $_POST['post_subtitle']);
+    if ( isset( $_POST['post_subtitle'] ) ) {
+        update_post_meta( $post_id, 'post_subtitle', sanitize_text_field( wp_unslash( $_POST['post_subtitle'] ) ) );
     }
 }
 
@@ -651,29 +636,6 @@ function wp_libra_ajax_search(){
     }
     die;
 }
-/*
- * Convert HEX to GRBA
-*/
-if(!function_exists('wp_libra_hex_to_rgb')){
-    function wp_libra_hex_to_rgb($hex,$opacity = 1) {
-    	$hex = str_replace("#",null, $hex);
-    	$color = array();
-    	if(strlen($hex) == 3) {
-    		$color['r'] = hexdec(substr($hex,0,1).substr($hex,0,1));
-    		$color['g'] = hexdec(substr($hex,1,1).substr($hex,1,1));
-    		$color['b'] = hexdec(substr($hex,2,1).substr($hex,2,1));
-    		$color['a'] = $opacity;
-    	}
-    	else if(strlen($hex) == 6) {
-    		$color['r'] = hexdec(substr($hex, 0, 2));
-    		$color['g'] = hexdec(substr($hex, 2, 2));
-    		$color['b'] = hexdec(substr($hex, 4, 2));
-    		$color['a'] = $opacity;
-    	}
-    	$color = "rgba(".implode(', ', $color).")";
-    	return $color;
-    }
-}
 /**
  * Ajax Dummy Data
  */
@@ -697,13 +659,6 @@ function cat_count_span($links) {
   return $links;
 }
 
-/* ==========================================================================
-   Add Custom Editor VC
-========================================================================== */
-	
-/* ==========================================================================
-   End Add Custom Editor VC
-========================================================================== */
 add_action('wp_head', 'wp_libra_custom_css');
 function wp_libra_custom_css(){
     

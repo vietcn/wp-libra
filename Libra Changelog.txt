@@ -1,3 +1,10 @@
+====== 14/11/2026 =====
+V2.1.0
+PHP 8 / WordPress 6.9 compatibility
+Remove unused assets, widgets, TinyMCE, dead JS/PHP
+Owl Carousel gallery + share toggle (no Bootstrap popover)
+SCSS cleanup (duplicate main import, Owl v2 nav)
+
 ====== 11/09/2026 =====
 V2.0.0
 Fixed Widgets

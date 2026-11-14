@@ -515,7 +515,9 @@ body.page-boxed {
             .entry-gallery {
                 .cms-post-gallery-carousel {
                     .owl-nav .owl-prev,
-                    .owl-nav .owl-next {
+                    .owl-nav .owl-next,
+                    .owl-controls .owl-prev,
+                    .owl-controls .owl-next {
                         @include transition(all .3s ease-in-out 0s);
                     }
                 }
@@ -982,8 +984,27 @@ body.page-boxed {
         }
     }
 
+    .owl-nav,
     .owl-controls {
         height: 0;
+
+        .owl-prev,
+        .owl-next {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            z-index: 5;
+            margin: 0;
+            width: 0;
+        }
+
+        .owl-prev {
+            left: 0;
+        }
+
+        .owl-next {
+            right: 0;
+        }
 
         .owl-next i,
         .owl-prev i {
@@ -995,6 +1016,11 @@ body.page-boxed {
             text-align: center;
             display: block;
             background-color: #1d2123;
+            color: #fff;
+            @include border-radius(50%);
+            position: absolute;
+            top: 50%;
+            @include transform(translateY(-50%));
         }
 
         .owl-prev i {
@@ -1008,6 +1034,7 @@ body.page-boxed {
         }
     }
 
+    &:hover .owl-nav,
     &:hover .owl-controls {
         opacity: 1;
 
@@ -1086,6 +1113,7 @@ body.page-boxed {
             margin-bottom: 30px;
         }
 
+        .owl-nav,
         .owl-controls {
             color: rgba(225, 225, 225, 0.65);
             font-size: 34px;
@@ -1132,6 +1160,7 @@ body.page-boxed {
                 width: 100%;
             }
 
+            .owl-nav,
             .owl-controls {
                 background-color: #fff;
             }
@@ -1463,7 +1492,7 @@ body.page-boxed {
         position: relative;
         padding: 0 40px 0 0;
         @include border-radius(10px);
-        overflow: visible;
+        overflow: hidden;
 
         .entry-header {
             padding: 40px 30px 26px !important;

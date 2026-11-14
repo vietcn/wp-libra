@@ -14,7 +14,7 @@
 	}
 }
 
-/* Gallery post image carousel (Owl) */
+/* Gallery post image carousel — same nav behavior as #slider-wrapper / home */
 .cms-post-gallery-carousel {
 	position: relative;
 	overflow: hidden;
@@ -24,16 +24,27 @@
 		display: block;
 	}
 
+	.owl-nav,
 	.owl-controls {
 		height: 0;
+		opacity: 1;
 
 		.owl-prev,
 		.owl-next {
 			position: absolute;
-			top: 50%;
+			top: 0;
+			bottom: 0;
 			z-index: 5;
 			margin: 0;
-			@include transform(translateY(-50%));
+			width: 0;
+		}
+
+		.owl-prev {
+			left: 0;
+		}
+
+		.owl-next {
+			right: 0;
 		}
 
 		.owl-prev i,
@@ -49,7 +60,8 @@
 			color: #fff;
 			@include border-radius(50%);
 			position: absolute;
-			top: 0;
+			top: 50%;
+			@include transform(translateY(-50%));
 			@include transition(all .3s ease-in-out 0s);
 
 			&:hover {
@@ -66,7 +78,10 @@
 		}
 	}
 
+	&:hover .owl-nav,
 	&:hover .owl-controls {
+		opacity: 1;
+
 		.owl-prev i {
 			left: 30px;
 		}

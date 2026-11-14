@@ -41,11 +41,8 @@ if(is_page() && isset($wp_libra_meta->_cms_enable_feature_slider) && $wp_libra_m
     <?php } ?>
     <div class="layout-divider"></div>
 <?php } ?>
-    <div class="<?php //wp_libra_main_class(); ?> sidebar-active <?php if($paged > 1) { echo 'paged-active'; } ?>">
+    <div class="sidebar-active <?php if($paged > 1) { echo 'paged-active'; } ?>">
         <div class="row">
-        
-            <!-- Cube Block. -->
-            
             <div id="primary" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
                 <div id="content" role="main">
                     <?php if ( have_posts() ) : ?>

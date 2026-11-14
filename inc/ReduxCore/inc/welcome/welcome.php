@@ -32,7 +32,6 @@
                 return;
             }
             $this->redux_loaded = true;
-            add_action( 'admin_menu', array( $this, 'admin_menus' ) );
 
             if ( isset( $_GET['page'] ) ) {
                 if ( substr( $_GET['page'], 0, 6 ) == "redux-" ) {
@@ -186,78 +185,6 @@
             echo json_encode( $return );
 
             die( 1 );
-        }
-
-        /**
-         * Register the Dashboard Pages which are later hidden but these pages
-         * are used to render the Welcome and Credits pages.
-         *
-         * @access public
-         * @since  1.4
-         * @return void
-         */
-        public function admin_menus() {
-
-            $page = 'add_theme_page';
-
-            // About Page
-            $page(
-                esc_html__( 'Welcome to Redux Framework', 'wp-libra' ), esc_html__( 'Redux Framework', 'wp-libra' ), $this->minimum_capability, 'redux-about', array(
-                    $this,
-                    'about_screen'
-                )
-            );
-
-            // Changelog Page
-            $page(
-                esc_html__( 'Redux Framework Changelog', 'wp-libra' ), esc_html__( 'Redux Framework Changelog', 'wp-libra' ), $this->minimum_capability, 'redux-changelog', array(
-                    $this,
-                    'changelog_screen'
-                )
-            );
-
-            // Support Page
-            $page(
-                esc_html__( 'Get Support', 'wp-libra' ), esc_html__( 'Get Support', 'wp-libra' ), $this->minimum_capability, 'redux-support', array(
-                    $this,
-                    'get_support'
-                )
-            );
-
-            // Support Page
-            $page(
-                esc_html__( 'Redux Extensions', 'wp-libra' ), esc_html__( 'Redux Extensions', 'wp-libra' ), $this->minimum_capability, 'redux-extensions', array(
-                    $this,
-                    'redux_extensions'
-                )
-            );
-
-
-            // Credits Page
-            $page(
-                esc_html__( 'The people that develop Redux Framework', 'wp-libra' ), esc_html__( 'The people that develop Redux Framework', 'wp-libra' ), $this->minimum_capability, 'redux-credits', array(
-                    $this,
-                    'credits_screen'
-                )
-            );
-
-            // Status Page
-            $page(
-                esc_html__( 'Redux Framework Status', 'wp-libra' ), esc_html__( 'Redux Framework Status', 'wp-libra' ), $this->minimum_capability, 'redux-status', array(
-                    $this,
-                    'status_screen'
-                )
-            );
-
-            //remove_submenu_page( 'tools.php', 'redux-about' );
-            remove_submenu_page( 'tools.php', 'redux-status' );
-            remove_submenu_page( 'tools.php', 'redux-changelog' );
-            remove_submenu_page( 'tools.php', 'redux-getting-started' );
-            remove_submenu_page( 'tools.php', 'redux-credits' );
-            remove_submenu_page( 'tools.php', 'redux-support' );
-            remove_submenu_page( 'tools.php', 'redux-extensions' );
-
-
         }
 
         /**

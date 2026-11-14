@@ -376,200 +376,71 @@ function wp_libra_images(){
     }
 }
 
-/**
- * Quote Text.
- * 
- * @author Fox
- * @since 1.0.0
- */
-function wp_libra_archive_quote() {
-    /* get text. */
-    preg_match('/\<blockquote\>(.*)\<\/blockquote\>/', get_the_content(), $blockquote);
-    
-    if(!empty($blockquote[0])){
-        echo ''.$blockquote[0].'';
-        return true;
-    } else {
-        if(has_post_thumbnail()){
-            the_post_thumbnail();
-        }
-        return false;
-    }
-}
-
-/**
- * Get icon from post format.
- * 
- * @return multitype:string Ambigous <string, mixed>
- * @author Fox
- * @since 1.0.0
- */
-function wp_libra_archive_post_icon() {
-    $post_icon = array('icon'=>'fa fa-file-text-o','text'=>__('STANDARD', 'wp-libra'));
-    switch (get_post_format()) {
-        case 'gallery':
-            $post_icon['icon'] = 'fa fa-camera-retro';
-            $post_icon['text'] = esc_html__('GALLERY', 'wp-libra');
-            break;
-        case 'link':
-            $post_icon['icon'] = 'fa fa-external-link';
-            $post_icon['text'] = esc_html__('LINK', 'wp-libra');
-            break;
-        case 'quote':
-            $post_icon['icon'] = 'fa fa-quote-left';
-            $post_icon['text'] = esc_html__('QUOTE', 'wp-libra');
-            break;
-        case 'video':
-            $post_icon['icon'] = 'fa  fa-youtube-play';
-            $post_icon['text'] = esc_html__('VIDEO', 'wp-libra');
-            break;
-        case 'audio':
-            $post_icon['icon'] = 'fa fa-volume-up';
-            $post_icon['text'] = esc_html__('AUDIO', 'wp-libra');
-            break;
-        default:
-            $post_icon['icon'] = 'fa fa-image';
-            $post_icon['text'] = esc_html__('STANDARD', 'wp-libra');
-            break;
-    }
-    echo '<i class="'.$post_icon['icon'].'"></i>';
-}
-
-/* Slider New */
-function wp_libra_slider_news(){
+/* Feature slider */
+function wp_libra_slider_news() {
     global $smof_data, $wp_libra_meta;
 
-    /* query. */
     $query = array(
-        'posts_per_page'=> 4,
-        'post_type' => 'post',
-        'post_status' => 'publish'
+        'posts_per_page' => 4,
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
     );
 
-    if(!empty($wp_libra_meta->_cms_slider_categories)){
-         $query['tax_query'] = array(array('taxonomy'=>'category', 'field'=>'slug', 'terms'=>explode(',', $wp_libra_meta->_cms_slider_categories)));
+    if ( ! empty( $wp_libra_meta->_cms_slider_categories ) ) {
+        $query['tax_query'] = array(
+            array(
+                'taxonomy' => 'category',
+                'field'    => 'slug',
+                'terms'    => explode( ',', $wp_libra_meta->_cms_slider_categories ),
+            ),
+        );
     }
 
+    $slider_posts = new WP_Query( $query );
 
-    $cube_posts = new WP_Query( $query );
-
-    if(!$cube_posts->have_posts()) return ;
-
+    if ( ! $slider_posts->have_posts() ) {
+        return;
+    }
     ?>
-    <div class="cms-theme-carousel cs-slider-wrapper nav-center clearfix" data-auto-play="<?php echo esc_attr($smof_data['auto_play_slider']) ; ?>"  data-speed="<?php echo esc_attr($smof_data['speed_slider']) ; ?>" data-item="1" data-loop="<?php echo esc_attr($smof_data['loop_slider']) ; ?>">
+    <div class="cms-theme-carousel cs-slider-wrapper nav-center clearfix" data-auto-play="<?php echo esc_attr( $smof_data['auto_play_slider'] ); ?>" data-speed="<?php echo esc_attr( $smof_data['speed_slider'] ); ?>" data-item="1" data-loop="<?php echo esc_attr( $smof_data['loop_slider'] ); ?>">
         <?php
-        while ($cube_posts->have_posts()) {
-            
-            $cube_posts->the_post();
-            
+        while ( $slider_posts->have_posts() ) {
+            $slider_posts->the_post();
             echo '<div class="item-inner">';
-                wp_libra_slider_news_post();
+            wp_libra_slider_news_post();
             echo '</div>';
         }
         ?>
     </div>
     <?php
-    
     wp_reset_postdata();
 }
 
-/* Slider Magazine */
-function wp_libra_slider_magazine(){
-    global $smof_data, $wp_libra_meta;
-
-    /* query. */
-    $query = array(
-        'posts_per_page'=> 6,
-        'post_type' => 'post',
-        'post_status' => 'publish'
-    );
-
-    if(!empty($wp_libra_meta->_cms_slider_categories)){
-         $query['tax_query'] = array(array('taxonomy'=>'category', 'field'=>'slug', 'terms'=>explode(',', $wp_libra_meta->_cms_slider_categories)));
-    }
-
-
-    $cube_posts = new WP_Query( $query );
-
-    if(!$cube_posts->have_posts()) return ;
-
-    ?>
-    <div class="cs-slider-magazine-wrapper clearfix">
-        <?php
-        while ($cube_posts->have_posts()) {
-            
-            $cube_posts->the_post();
-            
-            echo '<div class="item-inner">';
-                wp_libra_wp_libra_slider_magazine_post();
-            echo '</div>';
-        }
-        ?>
-    </div>
-    <?php
-    
-    wp_reset_postdata();
-}
-
-/* Function Child wp_libra_slider_news */
-function wp_libra_slider_news_post($limit = 25){
+/**
+ * Feature slider item.
+ *
+ * @param int $limit Unused; kept for backward compatibility.
+ */
+function wp_libra_slider_news_post( $limit = 25 ) {
     global $post;
+    unset( $limit );
+
+    if ( has_post_thumbnail( $post->ID ) ) {
+        $thumbnail = wp_get_attachment_url( get_post_thumbnail_id( $post->ID ) );
+    } else {
+        $thumbnail = get_template_directory_uri() . '/assets/images/no-image.jpg';
+    }
     ?>
     <article>
-        <?php if(has_post_thumbnail($post->ID)): ?>
-            <?php 
-                $thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'wp_libra_lg-images') ); 
-            ?>
-        <?php else : ?>
-            <?php 
-                $thumbnail = '' .get_template_directory_uri(). '/assets/images/no-image.jpg';
-            ?>
-        <?php endif; ?>
-        <div class="post-thumbnail" style="background-image: url(<?php echo esc_url($thumbnail); ?>);">
-        </div>
+        <div class="post-thumbnail" style="background-image: url(<?php echo esc_url( $thumbnail ); ?>);"></div>
         <span class="overlay-slider"></span>
         <div class="content" style="opacity: 0;">
             <div class="meta">
                 <?php wp_libra_archive_detail(); ?>
             </div>
-            <h1 class="title"><?php echo esc_attr($post->post_title); ?></h1>
-            <span class="subtitle"><?php echo esc_attr(get_post_meta($post->ID , 'post_subtitle', true)); ?></span>
-            <a class="readmore" href="<?php echo esc_url(get_the_permalink($post->ID)); ?>"><?php esc_html_e('Read this article', 'wp-libra'); ?></a>
-        </div>
-    </article>
-    <?php
-}
-
-/* Function Child wp_libra_slider_magazine */
-function wp_libra_wp_libra_slider_magazine_post($limit = 25){
-    global $post;
-    ?>
-    <article>
-        <div class="cs-magazine-item">
-            <?php if(has_post_thumbnail($post->ID)): ?>
-                <?php 
-                    $thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'wp_libra_lg-images') ); 
-                ?>
-            <?php else : ?>
-                <?php 
-                    $thumbnail = '' .get_template_directory_uri(). '/assets/images/no-image.jpg';
-                ?>
-            <?php endif; ?>
-            <div class="post-thumbnail" style="background-image: url(<?php echo esc_url($thumbnail); ?>);">
-            </div>
-            <div class="first-content">
-                <div class="meta">
-                    <?php wp_libra_archive_detail(); ?>
-                </div>
-                <h3 class="title"><?php echo esc_attr($post->post_title); ?></h3>
-            </div>
-            <div class="last-content">
-                <div class="meta">
-                    <?php wp_libra_archive_detail(); ?>
-                </div>
-                <h3 class="title"><?php echo esc_attr($post->post_title); ?></h3>
-                <a class="readmore" href="<?php echo esc_url(get_the_permalink($post->ID)); ?>"><?php esc_html_e('Read More', 'wp-libra'); ?></a>
-            </div>
+            <h1 class="title"><?php echo esc_html( $post->post_title ); ?></h1>
+            <span class="subtitle"><?php echo esc_html( get_post_meta( $post->ID, 'post_subtitle', true ) ); ?></span>
+            <a class="readmore" href="<?php echo esc_url( get_the_permalink( $post->ID ) ); ?>"><?php esc_html_e( 'Read this article', 'wp-libra' ); ?></a>
         </div>
     </article>
     <?php
@@ -654,53 +525,6 @@ function wp_libra_feature_box() {
              </div>
         </div>
     <?php
-}
-
-/* Lastest Post. */
-function wp_libra_lastest_posts() {
-    
-    $query = new WP_Query(array('posts_per_page'=> 3, 'post_type' => 'post', 'post_status'=> 'publish'));
-    
-    if($query->have_posts()){
-        ?> <div class="cms-lastest-post clearfix"><?php
-            while ($query->have_posts()): $query->the_post();
-            ?>
-            <div class="item-inner">
-                <div class="entry-blog">
-                    <div class="entry-header clearfix">
-                        <div class="entry-feature entry-feature-image">
-                            <?php the_post_thumbnail('wp_libra_images-small'); ?>
-                        </div>
-                        <div class="entry-meta">
-                            <?php wp_libra_archive_detail(); ?>
-                        </div>
-                        <h3 class="entry-title">
-                            <a href="<?php the_permalink(); ?>">
-                                <?php
-                                    if(is_sticky()){
-                                        echo "<i class='hide fa fa-thumb-tack'></i>";
-                                    }
-                                ?>
-                                <?php the_title(); ?>
-                            </a>
-                            <span class="subtitle"><?php echo esc_attr(get_post_meta(get_the_ID(), 'post_subtitle', true)); ?></span>
-                        </h3>
-                    </div>
-                    <div class="entry-content">
-                        <div class="entry-content-inner"><?php echo substr(strip_tags(strip_shortcodes(get_the_content())), 0, 140); ?></div>
-                    </div>
-                    <div class="entry-readmore">
-                        <?php the_author_posts_link(); ?>
-                        <a class="readmore" href="<?php the_permalink(); ?>"><?php esc_html_e('Read More', 'wp-libra'); ?></a>
-                    </div>
-                </div>
-            </div>
-            <?php
-            endwhile;
-            ?> </div> <?php
-        }
-        
-        wp_reset_postdata();
 }
 
 /* Body Class */
