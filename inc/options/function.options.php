@@ -573,7 +573,7 @@ $this->sections[] = array(
             'id' => 'dev_mode',
             'type' => 'switch',
             'title' => esc_html__('Dev Mode (not recommended)', 'wp-libra'),
-            'default' => true
+            'default' => false
         )
     )
 );
