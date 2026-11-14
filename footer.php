@@ -17,7 +17,7 @@ if (!empty($smof_data['get_id_contact_form'])) {
 ?>
         </main><!-- #main -->
         <div class="layout-divider"></div>
-		<footer>
+		<footer id="cshero-footer">
                 <div id="cshero-footer-top">
                     <div class="no-container">
                         <?php dynamic_sidebar('wg-footer-top'); ?>

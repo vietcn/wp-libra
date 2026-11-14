@@ -58,5 +58,3 @@
 	<!-- .entry-blog -->
 </article>
 <!-- #post -->
-
-

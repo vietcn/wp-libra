@@ -87,6 +87,3 @@ global $smof_data, $wp_libra_base;
 	<!-- .entry-footer -->
 </article>
 <!-- #post -->
-
-
-

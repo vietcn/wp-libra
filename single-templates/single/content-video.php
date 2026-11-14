@@ -53,6 +53,3 @@ global $smof_data, $wp_libra_base;
 	</div><!-- .entry-blog -->
 </article>
 <!-- #post -->
-
-
-

@@ -1939,6 +1939,7 @@ body.page-boxed {
         margin-bottom: 30px;
         text-align: center;
         width: 100%;
+        @include border-radius(10px);
     }
 }
 
@@ -2048,6 +2049,12 @@ body .gallery {
 /* ==========================================================================
    [Start] 4. Footer
 ========================================================================== */
+
+#cshero-footer {
+    margin-bottom: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+}
 
 #cshero-footer-top {
     background-color: #1d2123;
@@ -2159,6 +2166,10 @@ body .gallery {
         &:hover {
             color: #fff;
         }
+    }
+
+    p:last-child {
+        margin-bottom: 0;
     }
 
     .bottom-text-right {

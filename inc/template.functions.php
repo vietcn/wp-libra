@@ -446,56 +446,95 @@ function wp_libra_slider_news_post( $limit = 25 ) {
     <?php
 }
 
-/* Related Post */
+/**
+ * Related posts (same category), always up to 3 excluding current post.
+ *
+ * @since 1.0.0
+ */
 function wp_libra_related_post() {
-    global $post;
+	global $post;
 
-    $posttags = get_the_category($post->ID);
-    
-    if(empty($posttags)) return ;
-    
-    $tags = array();
-    
-    foreach ($posttags as $tag) {
-        
-        $tags[] = $tag->term_id;
-    }
-    
-    $query = new WP_Query(array('posts_per_page'=> 3, 'post_type' => 'post', 'post_status'=> 'publish', 'category__in'=>$tags));
-    
-    if($query->have_posts()){
-        ?> 
-        <div class="cms-related-post">
-            <h3 class="title-after"><?php esc_html_e('Related posts','wp-libra'); ?></h3>
-            <div class="cms-related-post-content row clearfix"> 
-                <?php
-                while ($query->have_posts()): $query->the_post();
-                ?>
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                    <article>
-                        <?php
-                            $class = '';
-                            $thumbnail = '';
-                            if(has_post_thumbnail($post->ID)){
-                                $thumbnail = wp_get_attachment_url( get_post_thumbnail_id($post->ID),'full' ); 
-                            }
-                            else{
-                                $class = "no-image ";
-                            }
-                        ?>
-                        <div class="item-inner <?php echo esc_attr($class); ?>">
-                            <a class="item-image" href="<?php echo esc_url(get_the_permalink()); ?>" style="background-image: url(<?php echo esc_url($thumbnail); ?>); background-size: cover; background-position: center; "></a>
-                            <p class="description"><a href="<?php echo esc_url(get_the_permalink()); ?>"><?php echo wp_libra_limit_words( strip_tags( get_the_excerpt() ), 7); ?></a></p>     
-                        </div>
-                    </article>
-                </div>
-        <?php
-        endwhile;
-        ?> </div> 
-        </div> <?php
-    }
-    
-    wp_reset_postdata();
+	if ( empty( $post->ID ) ) {
+		return;
+	}
+
+	$current_id = (int) $post->ID;
+	$limit      = 3;
+	$exclude    = array( $current_id );
+	$categories = wp_get_post_categories( $current_id );
+
+	$args = array(
+		'posts_per_page'      => $limit,
+		'post_type'           => 'post',
+		'post_status'         => 'publish',
+		'post__not_in'        => $exclude,
+		'ignore_sticky_posts' => true,
+		'no_found_rows'       => true,
+	);
+
+	if ( ! empty( $categories ) ) {
+		$args['category__in'] = $categories;
+	}
+
+	$query = new WP_Query( $args );
+
+	/* Fill remaining slots with recent posts if category has fewer than 3. */
+	$found_ids = wp_list_pluck( $query->posts, 'ID' );
+	$needed    = $limit - count( $found_ids );
+
+	if ( $needed > 0 ) {
+		$exclude   = array_merge( $exclude, $found_ids );
+		$fill_query = new WP_Query(
+			array(
+				'posts_per_page'      => $needed,
+				'post_type'           => 'post',
+				'post_status'         => 'publish',
+				'post__not_in'        => $exclude,
+				'ignore_sticky_posts' => true,
+				'no_found_rows'       => true,
+			)
+		);
+
+		if ( $fill_query->have_posts() ) {
+			$query->posts = array_merge( $query->posts, $fill_query->posts );
+			$query->post_count = count( $query->posts );
+		}
+		wp_reset_postdata();
+	}
+
+	if ( ! $query->have_posts() ) {
+		return;
+	}
+	?>
+	<div class="cms-related-post">
+		<h3 class="title-after"><?php esc_html_e( 'Related posts', 'wp-libra' ); ?></h3>
+		<div class="cms-related-post-content row clearfix">
+			<?php
+			while ( $query->have_posts() ) :
+				$query->the_post();
+				$class     = '';
+				$thumbnail = '';
+				if ( has_post_thumbnail() ) {
+					$thumbnail = wp_get_attachment_image_url( get_post_thumbnail_id(), 'full' );
+				} else {
+					$class = 'no-image ';
+				}
+				?>
+				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+					<article>
+						<div class="item-inner <?php echo esc_attr( $class ); ?>">
+							<a class="item-image" href="<?php echo esc_url( get_permalink() ); ?>" style="background-image: url(<?php echo esc_url( $thumbnail ); ?>); background-size: cover; background-position: center;"></a>
+							<p class="description"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo esc_html( wp_libra_limit_words( wp_strip_all_tags( get_the_excerpt() ), 7 ) ); ?></a></p>
+						</div>
+					</article>
+				</div>
+				<?php
+			endwhile;
+			?>
+		</div>
+	</div>
+	<?php
+	wp_reset_postdata();
 }
 
 /* Feature Box */
