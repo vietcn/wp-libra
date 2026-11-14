@@ -96,24 +96,6 @@
                     'overload_field_path'
                 ) ); // Adds the local field
 
-                add_filter( 'upload_mimes', array(
-                    $this,
-                    'custom_upload_mimes'
-                ) );
-
-            }
-
-            /**
-             * Adds the appropriate mime types to WordPress
-             *
-             * @param array $existing_mimes
-             *
-             * @return array
-             */
-            function custom_upload_mimes( $existing_mimes = array() ) {
-                $existing_mimes['redux'] = 'application/redux';
-
-                return $existing_mimes;
             }
 
             public function add_section() {

@@ -4614,7 +4614,9 @@ class scss_server {
 		}
 
 		$this->cacheDir = $cacheDir;
-		if (!is_dir($this->cacheDir)) mkdir($this->cacheDir, 0755, true);
+		if ( ! is_dir( $this->cacheDir ) && function_exists( 'wp_mkdir_p' ) ) {
+			wp_mkdir_p( $this->cacheDir );
+		}
 
 		if (!isset($scss)) {
 			$scss = new scssc();

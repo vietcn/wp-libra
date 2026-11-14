@@ -33,7 +33,7 @@ global $smof_data, $wp_libra_base;
 		            }
 		    	?>
 	    		<?php the_title(); ?>
-		    	<span class="subtitle"><?php echo esc_attr(get_post_meta(get_the_ID(), 'post_subtitle', true)); ?></span>
+		    	<span class="subtitle"><?php echo esc_html(get_post_meta(get_the_ID(), 'post_subtitle', true)); ?></span>
 		    </h2>
 		    <div class="entry-meta">
 		    	<?php wp_libra_archive_meta(); ?>
@@ -46,7 +46,7 @@ global $smof_data, $wp_libra_base;
 			<div class="entry-content-inner"><?php the_content(); ?></div>
 			<?php
 				wp_link_pages( array(
-					'before'      => '<div class="page-links"><span class="page-links-title">' . esc_html__( 'Pages:', 'wp-recruitment' ) . '</span>',
+					'before'      => '<div class="page-links"><span class="page-links-title">' . esc_html__( 'Pages:', 'wp-libra' ) . '</span>',
 					'after'       => '</div>',
 					'link_before' => '<span>',
 					'link_after'  => '</span>',

@@ -20,10 +20,10 @@ class CS_Recent_Post_Widget_V2 extends WP_Widget {
         $show_decs = (int) $instance['show_decs'];
         $number = (int) $instance['number'];
 
-        //echo balanceTags($before_widget);
-        echo '<aside id="cms-recent-post-'.get_the_ID().'">';
-            if($title) {
-                echo balanceTags($before_title.$title.$after_title);
+        echo '<aside id="cms-recent-post-' . esc_attr( (string) get_the_ID() ) . '">';
+            if ( $title ) {
+                // Sidebar chrome comes from register_sidebar(); title is escaped.
+                printf( '%1$s%2$s%3$s', $before_title, esc_html( $title ), $after_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
 
             $sticky = get_option('sticky_posts');

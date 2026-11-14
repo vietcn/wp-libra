@@ -99,7 +99,7 @@
 
                         $is_plugin = false;
                         foreach ( get_plugins() as $key => $value ) {
-                            if ( is_plugin_active( $key ) && strpos( $key, 'redux-framework.php' ) !== false ) {
+                            if ( false !== strpos( $key, 'redux-framework.php' ) && class_exists( 'ReduxFrameworkPlugin' ) ) {
                                 self::$_dir = trailingslashit( Redux_Helpers::cleanFilePath( WP_CONTENT_DIR . '/plugins/' . plugin_dir_path( $key ) . 'ReduxCore/' ) );
                                 $is_plugin  = true;
                             }
@@ -350,12 +350,7 @@
                         add_action( 'network_admin_menu', array( $this, '_options_page' ) );
                     }
 
-                    // Admin Bar menu
-                    add_action( 'admin_bar_menu', array(
-                        $this,
-                        '_admin_bar_menu'
-                    ), $this->args['admin_bar_priority'] );
-
+                    // Admin Bar menu disabled for ThemeForest (themes must not add admin bar entries).
                     // Register setting
                     add_action( 'admin_init', array( $this, '_register_settings' ) );
 
@@ -406,7 +401,7 @@
                             $this,
                             'save_network_page'
                         ), 10, 0 );
-                        add_action( 'admin_bar_menu', array( $this, 'network_admin_bar' ), 999 );
+                        // Network admin bar menu disabled for ThemeForest compliance.
                     }
                     // Ajax saving!!!
                     add_action( "wp_ajax_" . $this->args['opt_name'] . '_ajax_save', array( $this, "ajax_save" ) );
@@ -1480,12 +1475,13 @@
              * @global      $menu , $submenu, $wp_admin_bar
              * @return      void
              */
-            public function _admin_bar_menu() {
+            public function redux_toolbar_menu() {
                 global $menu, $submenu, $wp_admin_bar;
 
                 $ct         = wp_get_theme();
                 $theme_data = $ct;
 
+                // Intentionally unused when admin bar integration is disabled for ThemeForest.
                 if ( ! is_super_admin() || ! is_admin_bar_showing() || ! $this->args['admin_bar'] || $this->args['menu_type'] == 'hidden' ) {
                     return;
                 }
@@ -1568,7 +1564,6 @@
                     $wp_admin_bar->add_node( $nodeargs );
                 }
             }
-            // _admin_bar_menu()
 
             /**
              * Output dynamic CSS at bottom of HEAD
@@ -1689,7 +1684,7 @@
                     } elseif ( ! $this->args['disable_google_fonts_link'] ) {
                         $protocol = ( ! empty ( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443 ) ? "https:" : "http:";
 
-                        //echo '<link rel="stylesheet" id="options-google-fonts" title="" href="'.$protocol.$typography->makeGoogleWebfontLink( $this->typography ).'&amp;v='.$version.'" type="text/css" media="all" />';
+                        // Google fonts link output handled elsewhere.
                         wp_register_style( 'redux-google-fonts-' . $this->args['opt_name'], $protocol . $typography->makeGoogleWebfontLink( $this->typography ), '', $version );
                         wp_enqueue_style( 'redux-google-fonts-' . $this->args['opt_name'] );
                     }

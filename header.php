@@ -17,8 +17,11 @@ global $smof_data, $wp_libra_meta; ?>
 <meta name="viewport" content="initial-scale=1, width=device-width" />
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-<?php if ( ! function_exists( 'wp_site_icon' )) : ?>
-<link rel="icon" type="image/png" href="<?php echo esc_url($smof_data['favicon_icon']['url']); ?>"/>
+<?php
+// Prefer WP Site Icon; only output theme favicon when Site Icon is empty.
+if ( ! has_site_icon() && ! empty( $smof_data['favicon_icon']['url'] ) ) :
+	?>
+<link rel="icon" type="image/png" href="<?php echo esc_url( $smof_data['favicon_icon']['url'] ); ?>"/>
 <?php endif; ?>
 <?php wp_head(); ?>
 </head>
@@ -28,6 +31,7 @@ global $smof_data, $wp_libra_meta; ?>
     }
 ?>
 <body <?php body_class(); ?><?php echo !empty($smof_data['boxed_bg_image']['url']) ? ' style="background-image: url( ' . esc_url($smof_data['boxed_bg_image']['url']) . ' );"' : '' ; ?>>
+<?php wp_body_open(); ?>
 <div class="overlay"></div>
 <?php if($smof_data['bg_canvas']=='1'):?>
     <div id="particles"><canvas class="pg-canvas" width="1916" height="580"></canvas><canvas class="pg-canvas"></canvas></div>

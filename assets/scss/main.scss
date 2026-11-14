@@ -2360,7 +2360,9 @@ body .gallery {
             a {
                 background-color: #66727b;
                 color: #eee;
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 width: 29px;
                 height: 29px;
                 line-height: 29px;

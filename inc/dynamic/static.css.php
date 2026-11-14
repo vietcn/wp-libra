@@ -116,6 +116,9 @@ class CMSSuperHeroes_StaticCss {
 
 		$file = get_template_directory() . '/assets/css/' . $file;
 
+		/* Normalize to Unix LF — mixed line endings fail ThemeForest Theme Check / SVN. */
+		$css = str_replace( array( "\r\n", "\r" ), "\n", $css );
+
 		/* write static.css file */
 		$wp_filesystem->put_contents( $file, $css, FS_CHMOD_FILE );
 	}

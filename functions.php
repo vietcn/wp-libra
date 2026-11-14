@@ -115,6 +115,27 @@ function wp_libra_setup() {
 	add_theme_support( 'post-thumbnails' );
 	add_image_size( 'wp_libra_images-small', 500, 500, true );
 	set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop
+
+	// Modern WP theme supports (ThemeForest / Theme Check recommendations).
+	add_theme_support( 'html5', array(
+		'search-form',
+		'comment-form',
+		'comment-list',
+		'gallery',
+		'caption',
+		'style',
+		'script',
+	) );
+	add_theme_support( 'custom-logo', array(
+		'height'      => 100,
+		'width'       => 400,
+		'flex-height' => true,
+		'flex-width'  => true,
+	) );
+	add_theme_support( 'align-wide' );
+	add_theme_support( 'responsive-embeds' );
+	add_theme_support( 'wp-block-styles' );
+	add_editor_style( 'assets/css/editor-style.css' );
 }
 add_action( 'after_setup_theme', 'wp_libra_setup' );
 
@@ -172,7 +193,7 @@ function wp_libra_scripts_styles() {
 	wp_enqueue_script( 'olw-carousel', get_template_directory_uri() . '/assets/js/owl.carousel.min.js', array( 'jquery' ), '2.0.0', true );
 
 	/* Add main.js */
-	wp_register_script( 'cmssuperheroes-main', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery', 'olw-carousel' ), '1.0.7', true );
+	wp_register_script( 'cmssuperheroes-main', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery', 'olw-carousel' ), '1.0.8', true );
 	wp_localize_script( 'cmssuperheroes-main', 'CMSOptions', $script_options );
 	wp_enqueue_script( 'cmssuperheroes-main' );
 	/* Add menu.js */
@@ -208,7 +229,7 @@ function wp_libra_scripts_styles() {
 	wp_enqueue_style( 'cmssuperheroes-style', get_stylesheet_uri(), array( 'bootstrap' ));
 
 	/* Load static css*/
-	wp_enqueue_style('cmssuperheroes-static', get_template_directory_uri() . '/assets/css/static.css', array( 'cmssuperheroes-style' ), '1.0.7');
+	wp_enqueue_style('cmssuperheroes-static', get_template_directory_uri() . '/assets/css/static.css', array( 'cmssuperheroes-style' ), '1.0.8');
 }
 add_action( 'wp_enqueue_scripts', 'wp_libra_scripts_styles' );
 
@@ -625,7 +646,7 @@ function wp_libra_ajax_search(){
 	            <div class="search-content clearfix">
 	            	<div class="search-meta"><?php wp_libra_archive_detail(); ?></div>
 	                <h3 class="title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-	                <span class="subtitle"><?php echo esc_attr(get_post_meta(get_the_ID() , 'post_subtitle', true)); ?></span>
+	                <span class="subtitle"><?php echo esc_html(get_post_meta(get_the_ID() , 'post_subtitle', true)); ?></span>
 	                <div class="description"><?php echo wp_libra_limit_words( strip_tags( get_the_excerpt() ), 25)."..."; ?></div>
 	                <a class="loadmore" href="<?php the_permalink(); ?>"><?php esc_html_e('READ MORE', 'wp-libra'); ?></a>
 	            </div>

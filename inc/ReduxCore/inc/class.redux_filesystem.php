@@ -157,21 +157,9 @@
 
                 // Do unique stuff
                 if ( $action == 'mkdir' ) {
-
-                    if ( defined( 'FS_CHMOD_DIR' ) ) {
-                        $chmod = FS_CHMOD_DIR;
-                    } else {
-                        $chmod = 0755;
-                    }
-                    $res = $wp_filesystem->mkdir( $file );
+                    $res = wp_mkdir_p( $file );
                     if ( ! $res ) {
-                        wp_mkdir_p( $file );
-
                         $res = file_exists( $file );
-                        if ( ! $res ) {
-                            mkdir( $file, $chmod, true );
-                            $res = file_exists( $file );
-                        }
                     }
                 } elseif ( $action == 'rmdir' ) {
                     $res = $wp_filesystem->rmdir( $file, $recursive );

@@ -3,216 +3,292 @@
 ========================================================================== */
 #cshero-header {
     #cshero-header-navigation {
-      width: 100%;
-      &.header-fixed {
-        z-index: 9669;
-        position: fixed;
-        top: 0;
-        -webkit-backface-visibility: hidden;
-        #menu-main-menu { 
-          @include border-radius(0);
-          max-width: 1170px; 
+        width: 100%;
+
+        &.header-fixed {
+            z-index: 9669;
+            position: fixed;
+            top: 0;
+            -webkit-backface-visibility: hidden;
+
+            #menu-main-menu {
+                @include border-radius(0);
+                max-width: 1170px;
+            }
         }
-      }
-  }
-  #cshero-header-logo {
-    padding: 60px 0 40px;
-    text-align: center;
-    a {
-      display: inline-block;
-      img {
-        @include transition(all 200ms linear 0ms);
-        max-height: 89px;
-      }
     }
-  }
-  > .container {
-    position: relative;
-    z-index: 99;
-  }
+
+    #cshero-header-logo {
+        padding: 60px 0 40px;
+        text-align: center;
+
+        a {
+            display: inline-block;
+
+            img {
+                @include transition(all 200ms linear 0ms);
+                max-height: 89px;
+            }
+        }
+    }
+
+    >.container {
+        position: relative;
+        z-index: 99;
+    }
 }
+
 .page-popup-wrapper {
-  i {
-    color: #cacaca;
-    font-size: 18px;
-    height: 18px;
-    position: absolute;
-    cursor: pointer;
-    z-index: 1000;
-    right: 20px;
-    top: 50%;
-    @include transform(translateY(-50%));
-    &:hover {
-      color: #fff;
+    i {
+        color: #cacaca;
+        font-size: 18px;
+        height: 18px;
+        position: absolute;
+        cursor: pointer;
+        z-index: 1000;
+        right: 20px;
+        top: 50%;
+        @include transform(translateY(-50%));
+
+        &:hover {
+            color: #fff;
+        }
     }
-  }
-  .search-page
-  &.boxed {
-    display: none;
-  }
+
+    .search-page &.boxed {
+        display: none;
+    }
 }
 
 .page-search-popup {
-  background-color: rgba(21,23,25,0.95);
-  height: 100%;
-  position: fixed;
-  text-align: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  visibility: hidden;
-  &.active {
-    visibility: visible;
-  }
-  .container {
-    position: relative;
-    .page-search-header {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .searchform {
-        width: 100%;
-        z-index: 10;
-        .search-field {
-          text-align: center;
-          font-size: 36px;
-          background-color: transparent;
-        }
-        input[type="text"] {
-          text-align: center;
-          font-size: 32px;
-          line-height: 70px;
-          height: 70px;
-        }
-      }
-      #searchsubmit, .screen-reader-text {
-        display: none;
-      }
-    }
-  }
-  .close {
-    cursor: pointer;
-    height: 60px;
-    position: absolute;
-    right: 0;
-    top: 60px;
-    width: 60px;
-    &:before, &:after {
-      background-color: #7a7a7a;
-      content: "";
-      height: 2px;
-      margin: 14px 0 0 -5px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      transition: background-color 0.2s ease-in-out 0s;
-      width: 65px;
-    }
-    &:before {
-      @include transform(rotate(45deg));
-      z-index: 9;
-    }
-    &:after {
-      @include transform(rotate(-45deg));
-    }
-    &:hover {
-      &:before, &:after {
-        background-color: #fff;
-      }
-    }
-  }
-  
-  .page-search-content {
-    border: 1px solid #3a3a3a;
-    margin: auto;
-    max-width: 1170px;
-    width: 100% !important;
-    max-height: 0;
-    overflow: hidden;
-    position: relative;
+    background-color: rgba(21, 23, 25, 0.95);
+    height: 100%;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* Close: fade first, then hide. Open: show immediately then fade in. */
+    transition: opacity 0.28s ease, visibility 0s linear 0.28s;
+
     &.active {
-      max-height: 3000px;
-      overflow: visible;
-      min-height: 150px;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: opacity 0.28s ease, visibility 0s linear 0s;
     }
-    .nothing-item {
-      display: block;
-      padding: 60px 0;
-      @extend .font-m-12;
-      color: #000;
+
+    .container {
+        position: relative;
+        height: 100%;
     }
-    .search-thumbnail {
-      float: left;
-      max-width: 300px;
-    }
-    .search-wrapper {
-      overflow: hidden;
-      padding: 50px 80px 80px;
-      width: 100% !important;
-      .search-item {
-        margin-bottom: 24px;
-        overflow: hidden;
-        padding-bottom: 20px;
-        &:last-child {
-          margin-bottom: 0;
+
+    .page-search-header {
+        height: 100vh;
+        min-width: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .search-form {
+            z-index: 10;
+            display: flex;
+            opacity: 0;
+            @include transform(translateY(-16px));
+            transition: opacity 0.28s ease, transform 0.28s ease;
+
+            .search-field {
+                display: flex;
+                width: auto;
+                font-size: 30px;
+                padding: 0 30px;
+                height: 70px;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                background-color: #fff;
+            }
+
+            .search-submit {
+                height: 70px;
+                padding: 0 30px;
+                width: auto;
+                transition: background-color 0.2s ease, color 0.2s ease;
+            }
         }
-      }
+
+        #searchsubmit,
+        .screen-reader-text {
+            display: none;
+        }
     }
-    .search-content {
-      padding-left: 320px;
-      text-align: left;
-      position: relative;
-      &:before {
-        height: 1px;
-        width: 100%;
-        background-color: #e9e9e9;
-        content: "";
+
+    &.active .page-search-header .search-form {
+        opacity: 1;
+        @include transform(translateY(0));
+    }
+
+    .close {
+        cursor: pointer;
+        height: 60px;
         position: absolute;
-        bottom: 0;
-        left: 320px;
-      }
-      .title {
-        font-size: 40px;
-        line-height: normal;
-        margin: 0;
-        a {
-          color: #010101;
-          &:hover {
-            color: $primary_color;
-          }
+        right: 0;
+        top: 60px;
+        width: 60px;
+        z-index: 11;
+        opacity: 0;
+        @include transform(translateY(-8px));
+        transition: opacity 0.28s ease, transform 0.28s ease;
+
+        &:before,
+        &:after {
+            background-color: #7a7a7a;
+            content: "";
+            height: 2px;
+            margin: 14px 0 0 -5px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transition: background-color 0.2s ease;
+            width: 65px;
         }
-      }
-      .subtitle {
-        font-size: 12px;
-      }
+
+        &:before {
+            @include transform(rotate(45deg));
+            z-index: 9;
+        }
+
+        &:after {
+            @include transform(rotate(-45deg));
+        }
+
+        &:hover {
+
+            &:before,
+            &:after {
+                background-color: #fff;
+            }
+        }
     }
-    .search-meta {
-      @extend .font-m-12;
-      color: $primary_color;
-      line-height: 14px;
-      li {
-        display: inline-block;
-      }
+
+    &.active .close {
+        opacity: 1;
+        @include transform(translateY(0));
     }
-    .loadmore {
-      color: #545353;
-      font-size: 12px;
-      position: absolute;
-      bottom: -13px;
-      right: 0;
-      padding-left: 12px;
-      background-color: #fff;
-      &:hover {
-        color: $primary_color;
-      }
+
+    .page-search-content {
+        border: 1px solid #3a3a3a;
+        margin: auto;
+        max-width: 1170px;
+        width: 100% !important;
+        max-height: 0;
+        overflow: hidden;
+        position: relative;
+        opacity: 0;
+        transition: opacity 0.25s ease, max-height 0s linear 0.25s;
+
+        &.active {
+            max-height: 80vh;
+            overflow: auto;
+            min-height: 150px;
+            opacity: 1;
+            transition: opacity 0.25s ease, max-height 0s linear 0s;
+        }
+
+        .nothing-item {
+            display: block;
+            padding: 60px 0;
+            @extend .font-m-12;
+            color: #000;
+        }
+
+        .search-thumbnail {
+            float: left;
+            max-width: 300px;
+        }
+
+        .search-wrapper {
+            overflow: hidden;
+            padding: 50px 80px 80px;
+            width: 100% !important;
+
+            .search-item {
+                margin-bottom: 24px;
+                overflow: hidden;
+                padding-bottom: 20px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .search-content {
+            padding-left: 320px;
+            text-align: left;
+            position: relative;
+
+            &:before {
+                height: 1px;
+                width: 100%;
+                background-color: #e9e9e9;
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 320px;
+            }
+
+            .title {
+                font-size: 40px;
+                line-height: normal;
+                margin: 0;
+
+                a {
+                    color: #010101;
+
+                    &:hover {
+                        color: $primary_color;
+                    }
+                }
+            }
+
+            .subtitle {
+                font-size: 12px;
+            }
+        }
+
+        .search-meta {
+            @extend .font-m-12;
+            color: $primary_color;
+            line-height: 14px;
+
+            li {
+                display: inline-block;
+            }
+        }
+
+        .loadmore {
+            color: #545353;
+            font-size: 12px;
+            position: absolute;
+            bottom: -13px;
+            right: 0;
+            padding-left: 12px;
+            background-color: #fff;
+
+            &:hover {
+                color: $primary_color;
+            }
+        }
     }
-  }
 }
+
 .page-template-page-books #cshero-header {
-  position: relative;
+    position: relative;
 }
+
 /* ==========================================================================
   End All Style Header
 ========================================================================== */

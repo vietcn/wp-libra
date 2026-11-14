@@ -1514,3 +1514,5 @@ pre {
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
+.redux-image-select-selected img, .redux-image-select-selected .tiles { border: 4px solid #269ad6!important; }
+.redux-container-switch .cb-disable.selected, .redux-container-switch .cb-enable.selected { color: #269ad6; }

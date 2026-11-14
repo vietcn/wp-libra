@@ -28,7 +28,7 @@ global $smof_data, $wp_libra_base;
 		            }
 		    	?>
 	    		<?php the_title(); ?>
-		    	<span class="subtitle"><?php echo esc_attr(get_post_meta(get_the_ID(), 'post_subtitle', true)); ?></span>
+		    	<span class="subtitle"><?php echo esc_html(get_post_meta(get_the_ID(), 'post_subtitle', true)); ?></span>
 		    </h2>
 		    <div class="entry-meta">
 		    	<?php wp_libra_archive_meta(); ?>

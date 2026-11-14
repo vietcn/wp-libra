@@ -352,9 +352,7 @@ jQuery(document).ready(function($) {
 	    });
     }
 	
-    
     /* Newletter */
-
     $('.newsletter-email').each(function() {
         if ($(this).val() === "Email") {
             $(this).val('');
@@ -373,11 +371,23 @@ jQuery(document).ready(function($) {
 		$('body').find('.page-contact-popup').removeClass('active');
 	});
 	$('.page-popup-wrapper .search-page i').on('click', function(){
-		$('body').find('.page-search-popup').addClass('active');
-		$("#cms-ajax-search").focus();
+		var $popup = $('body').find('.page-search-popup');
+		$popup.addClass('active');
+		window.setTimeout(function(){
+			$("#cms-ajax-search").trigger('focus');
+		}, 120);
 	});
 	$('.page-search-popup .close').on('click', function(){
-		$('body').find('.page-search-popup').removeClass('active');
+		var $popup = $('body').find('.page-search-popup');
+		clearTimeout(ajaxtimer);
+		$popup.find('.page-search-content').removeClass('active').empty();
+		$("#cms-ajax-search").trigger('blur').val('');
+		$popup.removeClass('active');
+	});
+	$(document).on('keydown', function(e){
+		if (e.key === 'Escape' || e.keyCode === 27) {
+			$('.page-search-popup.active .close').trigger('click');
+		}
 	});
 	/* Add class menu active */
 	$('#cshero-menu-mobile .icon-menu').on('click', function(){

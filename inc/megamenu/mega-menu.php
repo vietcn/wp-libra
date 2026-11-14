@@ -144,7 +144,7 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                                 ),
                                 'move-menu_item'
                             );
-                        ?>" class="item-move-up"><abbr title="<?php esc_html_e('Move up','wp-libra'); ?>">&#8593;</abbr></a>
+                        ?>" class="item-move-up"><abbr title="<?php esc_attr_e('Move up','wp-libra'); ?>">&#8593;</abbr></a>
                         |
                         <a href="<?php
                             echo wp_nonce_url(
@@ -157,9 +157,9 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                                 ),
                                 'move-menu_item'
                             );
-                        ?>" class="item-move-down"><abbr title="<?php esc_html_e('Move down','wp-libra'); ?>">&#8595;</abbr></a>
+                        ?>" class="item-move-down"><abbr title="<?php esc_attr_e('Move down','wp-libra'); ?>">&#8595;</abbr></a>
                     </span>
-                    <a class="item-edit" id="edit-<?php echo ''.$item_id; ?>" title="<?php esc_html_e('Edit Menu Item','wp-libra'); ?>" href="<?php
+                    <a class="item-edit" id="edit-<?php echo ''.$item_id; ?>" title="<?php esc_attr_e('Edit Menu Item','wp-libra'); ?>" href="<?php
                         echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : add_query_arg( 'edit-menu-item', $item_id, remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) );
                     ?>"><?php esc_html_e( 'Edit Menu Item' ,'wp-libra'); ?></a>
                 </span>
@@ -239,12 +239,12 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                 <?php echo esc_html( $title ); ?><br />
                 <label for="edit-<?php echo ''.$key . '-' . $item_id; ?>">
                     <select id="edit-<?php echo ''.$key . '-' . $item_id; ?>" class=" <?php echo ''.$key; ?>" name="<?php echo ''.$key . "[" . $item_id . "]"; ?>">
-                        <option value="standard" <?php echo ( $value == 'standard' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Standard Dropdown', 'wp-libra' ); ?></option>
-                        <option value="columns2" <?php echo ( $value == 'columns2' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( '2 columns dropdown', 'wp-libra' ); ?></option>
-                        <option value="columns3" <?php echo ( $value == 'columns3' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( '3 columns dropdown', 'wp-libra' ); ?>
+                        <option value="standard" <?php selected( $value, 'standard' ); ?>><?php esc_html_e( 'Standard Dropdown', 'wp-libra' ); ?></option>
+                        <option value="columns2" <?php selected( $value, 'columns2' ); ?>><?php esc_html_e( '2 columns dropdown', 'wp-libra' ); ?></option>
+                        <option value="columns3" <?php selected( $value, 'columns3' ); ?>><?php esc_html_e( '3 columns dropdown', 'wp-libra' ); ?>
                         </option>
-                        <option value="columns4" <?php echo ( $value == 'columns4' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( '4 columns dropdown', 'wp-libra' ); ?></option>
-                        <option value="columns5" <?php echo ( $value == 'columns5' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( '5 columns dropdown', 'wp-libra' ); ?></option>
+                        <option value="columns4" <?php selected( $value, 'columns4' ); ?>><?php esc_html_e( '4 columns dropdown', 'wp-libra' ); ?></option>
+                        <option value="columns5" <?php selected( $value, 'columns5' ); ?>><?php esc_html_e( '5 columns dropdown', 'wp-libra' ); ?></option>
                     </select>
                 </label>
             </p>
@@ -268,11 +268,11 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                 <?php echo esc_html( $title ); ?><br />
                 <label for="edit-<?php echo ''.$key . '-' . $item_id; ?>">
                     <select id="edit-<?php echo ''.$key . '-' . $item_id; ?>" class=" <?php echo ''.$key; ?>" name="<?php echo ''.$key . "[" . $item_id . "]"; ?>">
-                        <option value="autodrop_submenu" <?php echo ( $value == 'autodrop_submenu' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Auto drop', 'wp-libra' ); ?></option>
-                        <option value="drop_to_left" <?php echo ( $value == 'drop_to_left' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Drop To Left Side', 'wp-libra' ); ?></option>
-                        <option value="drop_to_right" <?php echo ( $value == 'drop_to_right' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Drop To Right Side', 'wp-libra' ); ?></option>
-                        <option value="drop_to_center" <?php echo ( $value == 'drop_to_center' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Drop To Center', 'wp-libra' ); ?></option>
-                        <option value="drop_full_width" <?php echo ( $value == 'drop_full_width' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Full width', 'wp-libra' ); ?></option>
+                        <option value="autodrop_submenu" <?php selected( $value, 'autodrop_submenu' ); ?>><?php esc_html_e( 'Auto drop', 'wp-libra' ); ?></option>
+                        <option value="drop_to_left" <?php selected( $value, 'drop_to_left' ); ?>><?php esc_html_e( 'Drop To Left Side', 'wp-libra' ); ?></option>
+                        <option value="drop_to_right" <?php selected( $value, 'drop_to_right' ); ?>><?php esc_html_e( 'Drop To Right Side', 'wp-libra' ); ?></option>
+                        <option value="drop_to_center" <?php selected( $value, 'drop_to_center' ); ?>><?php esc_html_e( 'Drop To Center', 'wp-libra' ); ?></option>
+                        <option value="drop_full_width" <?php selected( $value, 'drop_full_width' ); ?>><?php esc_html_e( 'Full width', 'wp-libra' ); ?></option>
                     </select>
                 </label>
             </p>
@@ -288,10 +288,15 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                 <?php echo esc_html( $title ); ?><br />
                 <label for="edit-<?php echo ''.$key . '-' . $item_id; ?>">
                     <select id="edit-<?php echo ''.$key . '-' . $item_id; ?>" class=" <?php echo ''.$key; ?>" name="<?php echo ''.$key . "[" . $item_id . "]"; ?>">
-                        <option value="" <?php echo ( $value == '' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Select Widget Area', 'wp-libra' ); ?></option>
+                        <option value="" <?php selected( $value, '' ); ?>><?php esc_html_e( 'Select Widget Area', 'wp-libra' ); ?></option>
                         <?php
                         foreach ( $sidebars as $sidebar ) {
-                            echo '<option value="' . $sidebar['id'] . '" ' . ( ( $value == $sidebar['id'] ) ? ' selected="selected" ' : '' ) . '>[' . $sidebar['id'] . '] - ' . $sidebar['name'] . '</option>';
+                            printf(
+                                '<option value="%1$s" %2$s>[%1$s] - %3$s</option>',
+                                esc_attr( $sidebar['id'] ),
+                                selected( $value, $sidebar['id'], false ),
+                                esc_html( $sidebar['name'] )
+                            );
                         }
                         ?>
                     </select>
@@ -306,8 +311,8 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                 <?php echo esc_html( $title ); ?><br />
                 <label for="edit-<?php echo ''.$key . '-' . $item_id; ?>">
                     <select id="edit-<?php echo ''.$key . '-' . $item_id; ?>" class=" <?php echo ''.$key; ?>" name="<?php echo ''.$key . "[" . $item_id . "]"; ?>">
-                        <option value="no_group" <?php echo ( $value == 'no_group' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'No', 'wp-libra' ); ?></option>
-                        <option value="group" <?php echo ( $value == 'group' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Yes', 'wp-libra' ); ?></option>
+                        <option value="no_group" <?php selected( $value, 'no_group' ); ?>><?php esc_html_e( 'No', 'wp-libra' ); ?></option>
+                        <option value="group" <?php selected( $value, 'group' ); ?>><?php esc_html_e( 'Yes', 'wp-libra' ); ?></option>
                     </select>
                 </label>
             </p>
@@ -321,8 +326,8 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                 <?php echo esc_html( $title ); ?><br />
                 <label for="edit-<?php echo ''.$key . '-' . $item_id; ?>">
                     <select id="edit-<?php echo ''.$key . '-' . $item_id; ?>" class=" <?php echo ''.$key; ?>" name="<?php echo ''.$key . "[" . $item_id . "]"; ?>">
-                        <option value="0" <?php echo ( $value == '0' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'No', 'wp-libra' ); ?></option>
-                        <option value="1" <?php echo ( $value == '1' ) ? ' selected="selected" ' : ''; ?>><?php esc_html_e( 'Yes', 'wp-libra' ); ?></option>
+                        <option value="0" <?php selected( $value, '0' ); ?>><?php esc_html_e( 'No', 'wp-libra' ); ?></option>
+                        <option value="1" <?php selected( $value, '1' ); ?>><?php esc_html_e( 'Yes', 'wp-libra' ); ?></option>
                     </select>
                 </label>
             </p>
@@ -354,7 +359,7 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
             <label for="edit-<?php echo ''.$key . '-' . $item_id; ?>">
                 <?php echo esc_html( $title ); ?><br />
                 <input type="text" value="<?php echo ''.$value; ?>" id="edit-<?php echo ''.$key . '-' . $item_id; ?>" class=" <?php echo ''.$key; ?>" name="<?php echo ''.$key . "[" . $item_id . "]"; ?>" />
-                <input alt="#TB_inline?height=400&width=500&inlineId=<?php echo ''.$key . '-' . $item_id . '-popup'; ?>" title="<?php esc_html_e( 'Click to browse icon', 'wp-libra' ) ?>" class="thickbox button-secondary submit-add-to-menu" type="button" value="<?php esc_html_e( 'Browse Icon', 'wp-libra' ) ?>" />
+                <input alt="#TB_inline?height=400&width=500&inlineId=<?php echo ''.$key . '-' . $item_id . '-popup'; ?>" title="<?php esc_attr_e( 'Click to browse icon', 'wp-libra' ); ?>" class="thickbox button-secondary submit-add-to-menu" type="button" value="<?php esc_attr_e( 'Browse Icon', 'wp-libra' ); ?>" />
                 <a class="button btn_clear button-primary" href="javascript: void(0);">Clear</a>
                 <span class="icon-preview  icon-preview<?php echo '-' . $item_id; ?>"><i class=" fa fa-<?php echo ''.$value; ?>"></i></span>
             </label>
@@ -386,7 +391,7 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                         <?php
                         foreach ( $options as $option ) {
                             ?>
-                            <option value="<?php echo ''.$option; ?>" <?php echo ( $value == $option ) ? ' selected="selected" ' : ''; ?>><?php echo ''.$option; ?></option>
+                            <option value="<?php echo ''.$option; ?>" <?php selected( $value, $option ); ?>><?php echo esc_html( $option ); ?></option>
                         <?php
                         }
                         ?>
@@ -402,7 +407,7 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                         <?php
                         foreach ( $options as $option ) {
                             ?>
-                            <option value="<?php echo ''.$option; ?>" <?php echo ( $value == $option ) ? ' selected="selected" ' : ''; ?>><?php echo ''.$option; ?></option>
+                            <option value="<?php echo ''.$option; ?>" <?php selected( $value, $option ); ?>><?php echo esc_html( $option ); ?></option>
                         <?php
                         }
                         ?>
@@ -419,7 +424,7 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                         <?php
                         foreach ( $options as $option ) {
                             ?>
-                            <option value="<?php echo ''.$option; ?>" <?php echo ( $value == $option ) ? ' selected="selected" ' : ''; ?>><?php echo ''.$option; ?></option>
+                            <option value="<?php echo ''.$option; ?>" <?php selected( $value, $option ); ?>><?php echo esc_html( $option ); ?></option>
                         <?php
                         }
                         ?>
@@ -440,7 +445,7 @@ function start_el( &$output, $item, $depth = 0, $args = array(), $current_object
                         <?php
                         foreach ( $options as $op_value => $op_text ) {
                             ?>
-                            <option value="<?php echo ''.$op_value; ?>" <?php echo ( $value == $op_value ) ? ' selected="selected" ' : ''; ?>><?php echo ''.$op_text; ?></option>
+                            <option value="<?php echo ''.$op_value; ?>" <?php selected( $value, $op_value ); ?>><?php echo ''.$op_text; ?></option>
                         <?php
                         }
                         ?>

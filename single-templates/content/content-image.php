@@ -25,7 +25,7 @@
 			    	?>
 		    		<?php the_title(); ?>
 		    	</a>
-		    	<span class="subtitle"><?php echo esc_attr(get_post_meta(get_the_ID(), 'post_subtitle', true)); ?></span>
+		    	<span class="subtitle"><?php echo esc_html(get_post_meta(get_the_ID(), 'post_subtitle', true)); ?></span>
 		    </h2>
 			<p> <?php echo wp_libra_limit_words( strip_tags( get_the_excerpt() ), 100); ?></p>
 			<div class="entry-meta">	

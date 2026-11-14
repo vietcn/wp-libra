@@ -252,7 +252,7 @@ class CsCoreControl
         <div class="select-field csfield">
         <select name="<?php echo esc_attr($params['id']); ?>" id="<?php echo esc_attr($params['id']); ?>">
         	<?php foreach ($params['options'] as $key => $option): ?>
-        		<option value="<?php echo esc_attr($key); ?>" <?php if(isset($params['value']) && ($params['value'] == $key)){ echo "selected"; } ?>><?php echo esc_attr($option); ?></option>
+        		<option value="<?php echo esc_attr($key); ?>" <?php if(isset($params['value']) && ($params['value'] == $key)){ echo "selected"; } ?>><?php echo esc_html($option); ?></option>
         	<?php endforeach; ?>
         </select>
         </div>
@@ -287,7 +287,7 @@ class CsCoreControl
         <div class="multiple-field">
         <select multiple="multiple">
         	<?php foreach ($params['options'] as $key => $option): ?>
-        		<option value="<?php echo esc_attr($key); ?>" <?php if(in_array($key, $selected)){ echo 'selected="selected"'; } ?>><?php echo esc_attr($option); ?></option>
+        		<option value="<?php echo esc_attr($key); ?>" <?php if(in_array($key, $selected)){ echo 'selected="selected"'; } ?>><?php echo esc_html($option); ?></option>
         	<?php endforeach; ?>
         </select>
     	<input type="hidden" name="<?php echo esc_attr($params['id']); ?>" id="<?php echo esc_attr($params['id']); ?>" value="<?php echo implode(",", $selected); ?>"/>
@@ -382,7 +382,7 @@ class CsCoreControl
         ob_start();
         ?>
         <div class="icon-field">
-            <input type="text" style="width: 170px;" class="thickbox" alt="#TB_inline?amp;inlineId=field_icon" title=""
+            <input type="text" style="width: 170px;" class="thickbox" alt="#TB_inline?amp;inlineId=field_icon" title="<?php esc_attr_e( 'Select icon', 'wp-libra' ); ?>"
             name="<?php echo esc_attr($params['id']); ?>"
             id="<?php echo esc_attr($params['id']); ?>"
             value="<?php if(isset($params['value'])){ echo esc_attr($params['value']);} ?>"
@@ -412,14 +412,14 @@ class CsCoreControl
                 $attachment_image = wp_get_attachment_image_src($value,'thumbnail');
                 if ( is_array( $attachment_image ) && ! empty( $attachment_image[0] ) ):?>
                 <li class="items" data-id="<?php echo esc_attr($value); ?>" style="background-image:url(<?php echo esc_url($attachment_image[0]);?>);background-size:cover;">
-                    <i class="edit dashicons dashicons-plus-alt" title="<?php esc_html_e('Replace Image', 'wp-libra'); ?>"></i>
-                    <i class="remove dashicons dashicons-dismiss" title="<?php esc_html_e('Remove Image', 'wp-libra'); ?>"></i>
+                    <i class="edit dashicons dashicons-plus-alt" title="<?php esc_attr_e('Replace Image', 'wp-libra'); ?>"></i>
+                    <i class="remove dashicons dashicons-dismiss" title="<?php esc_attr_e('Remove Image', 'wp-libra'); ?>"></i>
                 </li>
             <?php endif; endforeach; ?>
             <?php if($params['field'] != 'single'): ?>
-                <li class="items" data-id=""><i class="add dashicons dashicons-plus-alt" title="<?php esc_html_e('Add Image', 'wp-libra'); ?>"></i></li>
+                <li class="items" data-id=""><i class="add dashicons dashicons-plus-alt" title="<?php esc_attr_e('Add Image', 'wp-libra'); ?>"></i></li>
             <?php elseif(count($selected) == 0): ?>
-                <li class="items" data-id=""><i class="add dashicons dashicons-plus-alt" title="<?php esc_html_e('Add Image', 'wp-libra'); ?>"></i></li>
+                <li class="items" data-id=""><i class="add dashicons dashicons-plus-alt" title="<?php esc_attr_e('Add Image', 'wp-libra'); ?>"></i></li>
             <?php endif; ?>
             </ul>
             <input type="hidden" name="<?php echo esc_attr($params['id']); ?>" id="<?php echo esc_attr($params['id']); ?>" value="<?php echo  implode(",", $selected); ?>"/>
@@ -474,7 +474,7 @@ class CsCoreControl
             </div>
             <input type="text" name="<?php echo esc_attr($params['id']); ?>" id="<?php echo esc_attr($params['id']); ?>" class="text-indent xvalue" value="<?php echo esc_attr($params['value']); ?>"/>
             <?php if(!empty($params['format'])): ?>
-            <span class="follow-right"><?php echo esc_attr($params['format']); ?></span>
+            <span class="follow-right"><?php echo esc_html($params['format']); ?></span>
             <?php endif; ?>
         </div>
         <?php
@@ -547,13 +547,13 @@ class CsCoreControl
         ?>
 		<div id="cs_metabox_field_<?php echo esc_attr($params['id']); ?>" class="cs_metabox_field clearfix">
 		  <?php if(isset($params['label'])): ?>
-		    <label class="field-title" for="<?php echo esc_attr($params['id']); ?>"><?php echo esc_attr($params['label']); ?></label>
+		    <label class="field-title" for="<?php echo esc_attr($params['id']); ?>"><?php echo esc_html($params['label']); ?></label>
 	      <?php endif; ?>
 	      <div class="field<?php if(isset($params['class'])){ echo ' class="'.$params['class'].'"'; } ?>">
 	          <?php echo ''.$this->renderType($params); ?>
 	      </div>
 	      <?php if(isset($params['desc'])): ?>
-	      <p class="field-desc"><?php echo esc_attr($params['desc']); ?></p>
+	      <p class="field-desc"><?php echo esc_html($params['desc']); ?></p>
 	      <?php endif; ?>
 		</div>
         <?php
