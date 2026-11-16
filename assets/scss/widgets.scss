@@ -101,7 +101,7 @@
         text-align: center;
         @include border-radius(50%);
         font-weight: 600;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
         margin: 4px;

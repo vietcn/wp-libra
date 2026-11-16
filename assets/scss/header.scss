@@ -184,17 +184,35 @@
         max-width: 1170px;
         width: 100% !important;
         max-height: 0;
+        min-height: 0;
         overflow: hidden;
         position: relative;
         opacity: 0;
-        transition: opacity 0.25s ease, max-height 0s linear 0.25s;
+        visibility: hidden;
+        pointer-events: none;
+        @include transform(translateY(8px));
+        /* Smooth fade/slide both ways; collapse height only after fade completes. */
+        transition:
+            opacity 0.25s ease,
+            transform 0.25s ease,
+            visibility 0s linear 0.25s,
+            max-height 0s linear 0.25s,
+            min-height 0s linear 0.25s;
 
         &.active {
             max-height: 80vh;
-            overflow: auto;
             min-height: 150px;
+            overflow: auto;
             opacity: 1;
-            transition: opacity 0.25s ease, max-height 0s linear 0s;
+            visibility: visible;
+            pointer-events: auto;
+            @include transform(translateY(0));
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                visibility 0s linear 0s,
+                max-height 0s linear 0s,
+                min-height 0s linear 0s;
         }
 
         .nothing-item {

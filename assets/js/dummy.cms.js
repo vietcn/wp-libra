@@ -7,7 +7,8 @@
             data: {
                 'action': 'ajax_cmsdummy',
                 'current_data':  current_data,
-                'theme' : theme
+                'theme' : theme,
+                'nonce': (window.wpLibraDummy && wpLibraDummy.nonce) ? wpLibraDummy.nonce : ''
             },
             success: function(data, textStatus, XMLHttpRequest){
                 $('.cms-dummy-process-bar').css({
@@ -35,6 +36,11 @@
                     $('#cms-msg .cms-status').text(' Loading 100%');
                     $('#cms-msg').append(data);
                 }
+            },
+            error: function(XMLHttpRequest){
+                var message = XMLHttpRequest && XMLHttpRequest.responseText ? XMLHttpRequest.responseText : 'Import failed.';
+                $('#cms-msg').append('<br />' + message);
+                $('#dummy-data').prop('disabled', false);
             }
         });
     }
@@ -43,7 +49,7 @@
     		var r = confirm("Are you want import the demo data?");
         	if(r == true){
         		$('.cms-dummy-process').show();
-	            var theme = $('#smof_data-theme .redux-image-select-selected').find('input').val();
+	            var theme = $('#smof_data-theme .redux-image-select-selected').find('input').val() || 'libra';
 	            $(this).attr('disabled','true');
 	            $('#cms-msg .cms-status').text(' Loading ');
 	            var p = 0;

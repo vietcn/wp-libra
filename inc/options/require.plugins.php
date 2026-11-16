@@ -42,7 +42,7 @@ function cms_theme_register_required_plugins() {
         array(
             'name'               => 'Blog Import',
             'slug'               => 'blog_import',
-            'source'             => 'http://cmssuperheroes.com/plugins/blog_import.zip',
+            'source'             => 'https://cmssuperheroes.com/plugins/blog_import.zip',
             'required'           => true,
         )
     );
